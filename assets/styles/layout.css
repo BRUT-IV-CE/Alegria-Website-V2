@@ -15,6 +15,12 @@
     transition: all var(--transition-normal);
 }
 
+/* Prevent horizontal overflow caused by positioned/transformed elements */
+html,
+body {
+    overflow-x: hidden;
+}
+
 .header--transparent {
     background-color: transparent;
 }
@@ -164,7 +170,8 @@
     .main-nav {
         position: fixed;
         top: 0;
-        right: -100%;
+        right: 0;
+        transform: translateX(100%);
         width: 80%;
         max-width: 400px;
         height: 100vh;
@@ -172,11 +179,16 @@
         flex-direction: column;
         justify-content: center;
         padding: var(--space-2xl);
-        transition: right var(--transition-slow);
+        transition: transform var(--transition-slow);
     }
     
     .main-nav.active {
-        right: 0;
+        transform: translateX(0);
+    }
+
+    /* Prevent background scrolling when mobile menu is open */
+    body.menu-open {
+        overflow: hidden;
     }
     
     .nav-list {
@@ -200,7 +212,7 @@
     }
     
     .nav-dropdown-link {
-        color: var(--color-secondary-pink);
+        color: var(--color-accent);
     }
 }
 
@@ -253,14 +265,14 @@
     line-height: var(--line-height-relaxed);
 }
 
-.footer-column h4 {
+    .footer-column h4 {
     font-family: var(--font-body);
     font-weight: var(--font-body-weight-medium);
     font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
     margin-bottom: var(--space-md);
-    color: var(--color-secondary-pink);
+    color: var(--color-champagne);
 }
 
 .footer-links {
@@ -432,6 +444,13 @@
     gap: var(--space-md);
     justify-content: center;
     flex-wrap: wrap;
+}
+
+/* Force hero text color above overlays and global h1 rules */
+.hero .hero-title,
+.hero .hero-subtitle,
+.hero .hero-description {
+    color: var(--color-white);
 }
 
 /* Smaller hero for internal pages */
