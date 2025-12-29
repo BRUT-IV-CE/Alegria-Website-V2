@@ -212,7 +212,7 @@ body {
     }
     
     .nav-dropdown-link {
-        color: var(--color-secondary-pink);
+        color: var(--color-accent);
     }
 }
 
@@ -265,14 +265,14 @@ body {
     line-height: var(--line-height-relaxed);
 }
 
-.footer-column h4 {
+    .footer-column h4 {
     font-family: var(--font-body);
     font-weight: var(--font-body-weight-medium);
     font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
     margin-bottom: var(--space-md);
-    color: var(--color-secondary-pink);
+    color: var(--color-champagne);
 }
 
 .footer-links {
@@ -444,6 +444,13 @@ body {
     gap: var(--space-md);
     justify-content: center;
     flex-wrap: wrap;
+}
+
+/* Force hero text color above overlays and global h1 rules */
+.hero .hero-title,
+.hero .hero-subtitle,
+.hero .hero-description {
+    color: var(--color-white);
 }
 
 /* Smaller hero for internal pages */

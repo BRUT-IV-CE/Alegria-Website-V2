@@ -13,13 +13,19 @@
     --color-primary: #190042;
     --color-primary-rgb: 25, 0, 66;
     
-    /* Secondary - Soft ethereal tones */
-    --color-secondary-pink: #F6DDF0;
-    --color-secondary-lavender: #E4D1FF;
-    
-    /* Tertiary - Contrast colors */
-    --color-black: #000000;
-    --color-white: #FFFFFF;
+    /* Palette supplémentaire (définie par le client) */
+    /* Accent & neutrals : dérivés de la marque, utilisables pour CTA, fonds et textes */
+    --color-accent: #D4AF37;           /* Or Royal - Accent pour CTA */
+    --color-silver: #E5E4E2;           /* Argent Pur - bordures / séparateurs */
+    --color-champagne: #F7E7CE;       /* Champagne - fond doux alternatif */
+
+    /* Texte principal : noir de marque (remplacé) */
+    --color-black: #000000;            /* Noir - corps de texte (mis à jour) */
+    --color-white: #FFFFFF;            /* Blanc Perle - neutre */
+
+    /* Lavender accent for soft, brand-consistent highlights */
+    --color-lavender: #E0D0FA;        /* Lavande douce */
+    --color-lavender-rgb: 224, 208, 250;
     
     /* Derived colors */
     --color-primary-light: #2a0a6e;
@@ -87,7 +93,7 @@
     --shadow-subtle: 0 2px 10px rgba(25, 0, 66, 0.08);
     --shadow-medium: 0 4px 20px rgba(25, 0, 66, 0.12);
     --shadow-strong: 0 8px 40px rgba(25, 0, 66, 0.18);
-    --shadow-glow: 0 0 30px rgba(228, 209, 255, 0.4);
+    --shadow-glow: 0 0 30px rgba(var(--color-lavender-rgb), 0.4);
     --shadow-star: 0 0 20px rgba(255, 255, 255, 0.8);
     
     /* ===== BORDERS ===== */

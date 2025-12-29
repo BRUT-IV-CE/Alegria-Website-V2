@@ -21,33 +21,51 @@
 
 ```css
 Primaire:   #190042  /* Violet cosmique profond */
-Secondaire: #F6DDF0  /* Rose éthéré doux */
-            #E4D1FF  /* Lavande lumineuse */
-Tertiaire:  #000000  /* Noir pur */
-            #FFFFFF  /* Blanc pur */
+Accent:     #D4AF37  /* Or Royal - accents CTA */
+Lavande:    #E0D0FA  /* Lavande douce - nouvel accent */
+Champagne:  #F7E7CE  /* Fond doux alternatif */
+Noir:       #000000  /* Noir pur - texte principal mis à jour */
+Blanc:      #FFFFFF  /* Blanc pur */
 ```
 
 ### Palette du site
 
-Les couleurs utilisées dans la palette du site (définies dans `assets/styles/variables.css`) :
+Nouvelle palette définie par la marque (fichier : `assets/styles/variables.css`) :
+
+```csv
+Couleur,Code Hexa,Rôle,Description
+Bleu Abyssal,#190042,Primaire,Votre couleur de base, pour les fonds ou les titres.
+Or Royal,#D4AF37,Accent,Un doré classique pour les boutons d'appel à l'action (CTA).
+Argent Pur,#E5E4E2,Secondaire,Pour les bordures fines, les séparateurs ou les icônes.
+Champagne,#F7E7CE,Fond Doux,Une alternative au blanc pur pour adoucir l'interface.
+Noir,#000000,Texte,Couleur du texte principal (mise à jour).
+Lavande,#E0D0FA,Accent doux,Accent secondaire utilisé pour éléments décoratifs et dégradés.
+Blanc Perle,#FFFFFF,Neutre,Pour l'espace négatif et la clarté visuelle.
+```
+
+Variables CSS associées :
 
 ```css
---color-primary:            #190042;   /* Violet cosmique profond */
---color-primary-light:      #2a0a6e;   /* Variante plus claire */
---color-primary-dark:       #0f0029;   /* Variante plus foncée */
-
---color-secondary-pink:     #F6DDF0;   /* Rose éthéré */
---color-secondary-lavender: #E4D1FF;   /* Lavande lumineuse */
-
---color-white:              #FFFFFF;   /* Blanc pur */
---color-black:              #000000;   /* Noir pur */
-
-/* Overlays (RGBA pour superpositions et dégradés) */
---color-overlay:            rgba(25, 0, 66, 0.85);
---color-overlay-light:      rgba(25, 0, 66, 0.6);
-
-/* Utilisation : `color: var(--color-primary);` ou `background: var(--color-secondary-pink);` */
+--color-primary:        #190042; /* Bleu Abyssal */
+--color-accent:         #D4AF37; /* Or Royal */
+--color-silver:         #E5E4E2; /* Argent Pur */
+--color-champagne:      #F7E7CE; /* Champagne */
+--color-black:          #000000; /* Noir */
+--color-lavender:      #E0D0FA; /* Lavande douce */
+--color-white:          #FFFFFF; /* Blanc Perle */
 ```
+
+## 🔄 Changements récents
+
+Les modifications récentes effectuées dans le projet :
+
+- Palette : `--color-black` a été remplacée par `#000000` et une nouvelle variable `--color-lavender: #E0D0FA` a été ajoutée.
+- Configurateur : `section.configurator-preview` est désormais fixé (preview non défilante) et seule `section.configurator-options` est scrollable. (fichier : `assets/styles/configurator.css`)
+- Hero / Titres : le texte du hero a été forcé en blanc pour garantir la lisibilité sur l'overlay ; les headings principales utilisent `var(--color-white)` là où nécessaire. (fichiers : `assets/styles/layout.css`, `assets/styles/typography.css`)
+- Accents visuels : la lavande est utilisée pour des éléments décoratifs (étoiles, dégradés, ombres) afin d'harmoniser la charte. (fichiers : `assets/styles/typography.css`, `assets/styles/main.css`, `assets/styles/configurator.css`)
+
+Ces changements sont déjà appliqués dans les fichiers CSS du dossier `assets/styles/`.
+
 
 ### Typographie
 

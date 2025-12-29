@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6,
 h1, .h1 {
     font-size: var(--text-h1);
     letter-spacing: var(--tracking-wider);
-    color: var(--color-secondary-pink);
+    color: var(--color-primary);
 }
 
 h2, .h2 {
@@ -120,12 +120,12 @@ p,
     color: var(--color-white);
 }
 
-.text-secondary-pink {
-    color: var(--color-secondary-pink);
+.text-champagne {
+    color: var(--color-champagne);
 }
 
-.text-secondary-lavender {
-    color: var(--color-secondary-lavender);
+.text-silver {
+    color: var(--color-silver);
 }
 
 /* Weights */
@@ -184,17 +184,32 @@ p,
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-secondary-lavender), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-silver), transparent);
 }
 
 .decorative-star::before {
     content: '✧';
     margin-right: var(--space-xs);
-    color: var(--color-secondary-lavender);
+    color: var(--color-lavender);
 }
 
 .decorative-star::after {
     content: '✧';
     margin-left: var(--space-xs);
-    color: var(--color-secondary-lavender);
+    color: var(--color-lavender);
+}
+
+/* Force white headings/text inside dark sections and hero/page header */
+.hero h1,
+.hero h2,
+.hero h3,
+.page-header h1,
+.page-header h2,
+.section-dark h1,
+.section-dark h2,
+.header--dark h1,
+.header--dark h2,
+.footer h1,
+.footer h2 {
+    color: var(--color-white);
 }

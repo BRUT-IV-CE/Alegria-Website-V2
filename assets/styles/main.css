@@ -170,7 +170,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, transparent 40%, rgba(25, 0, 66, 0.9) 100%);
+    background: linear-gradient(180deg, transparent 40%, var(--color-lavender) 100%);
     z-index: 1;
 }
 
@@ -258,7 +258,7 @@
 }
 
 .brand-story-content .subtitle {
-    color: var(--color-secondary-pink);
+    color: var(--color-champagne);
     margin-bottom: var(--space-sm);
 }
 
@@ -379,7 +379,7 @@
     font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
-    color: var(--color-secondary-lavender);
+    color: var(--color-silver);
     margin-bottom: var(--space-sm);
 }
 
