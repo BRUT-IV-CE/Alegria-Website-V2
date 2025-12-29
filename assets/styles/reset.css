@@ -1,0 +1,123 @@
+/**
+ * ALEGRIA PARIS - CSS Reset
+ * ==========================
+ * Modern CSS reset for consistent cross-browser styling
+ */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set core root defaults */
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Set core body defaults */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    line-height: var(--line-height-normal);
+    font-family: var(--font-body);
+    font-weight: var(--font-body-weight-light);
+    color: var(--color-primary);
+    background-color: var(--color-white);
+}
+
+/* Remove list styles */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Anchor elements */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* Remove all button styles */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Remove all animations for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Improve media defaults */
+img,
+picture,
+video,
+canvas {
+    display: block;
+    max-width: 100%;
+}
+
+/* Remove default fieldset styles */
+fieldset {
+    border: none;
+}
+
+/* Table styles */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+    outline: 2px solid var(--color-secondary-lavender);
+    outline-offset: 3px;
+}
+
+/* Selection styling */
+::selection {
+    background-color: var(--color-secondary-lavender);
+    color: var(--color-primary);
+}

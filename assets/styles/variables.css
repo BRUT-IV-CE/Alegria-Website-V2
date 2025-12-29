@@ -1,0 +1,124 @@
+/**
+ * ALEGRIA PARIS - Design System Variables
+ * ========================================
+ * Brand: High-end fine jewelry (joaillerie premium)
+ * Universe: Stars, sky, constellations
+ * 
+ * DO NOT MODIFY these values without brand approval.
+ */
+
+:root {
+    /* ===== BRAND COLORS ===== */
+    /* Primary - Deep cosmic purple */
+    --color-primary: #190042;
+    --color-primary-rgb: 25, 0, 66;
+    
+    /* Secondary - Soft ethereal tones */
+    --color-secondary-pink: #F6DDF0;
+    --color-secondary-lavender: #E4D1FF;
+    
+    /* Tertiary - Contrast colors */
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    
+    /* Derived colors */
+    --color-primary-light: #2a0a6e;
+    --color-primary-dark: #0f0029;
+    --color-overlay: rgba(25, 0, 66, 0.85);
+    --color-overlay-light: rgba(25, 0, 66, 0.6);
+    
+    /* ===== TYPOGRAPHY ===== */
+    /* Titles: Cinzel Bold Uppercase */
+    --font-title: 'Cinzel', serif;
+    --font-title-weight: 700;
+    
+    /* Subtitles & Paragraphs: Montserrat Light */
+    --font-body: 'Montserrat', sans-serif;
+    --font-body-weight-light: 300;
+    --font-body-weight-regular: 400;
+    --font-body-weight-medium: 500;
+    
+    /* Font sizes - Desktop */
+    --text-hero: clamp(3rem, 6vw, 5rem);
+    --text-h1: clamp(2.5rem, 4vw, 3.5rem);
+    --text-h2: clamp(2rem, 3vw, 2.75rem);
+    --text-h3: clamp(1.5rem, 2.5vw, 2rem);
+    --text-h4: clamp(1.25rem, 2vw, 1.5rem);
+    --text-subtitle: clamp(0.875rem, 1.5vw, 1.125rem);
+    --text-body: clamp(0.9375rem, 1.2vw, 1.0625rem);
+    --text-small: clamp(0.8125rem, 1vw, 0.9375rem);
+    --text-caption: 0.75rem;
+    
+    /* Line heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.8;
+    
+    /* Letter spacing */
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.1em;
+    --tracking-wider: 0.2em;
+    --tracking-widest: 0.3em;
+    
+    /* ===== SPACING ===== */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    --space-4xl: 8rem;
+    --space-5xl: 10rem;
+    
+    /* Container */
+    --container-max: 1400px;
+    --container-padding: clamp(1.5rem, 5vw, 4rem);
+    
+    /* ===== TRANSITIONS ===== */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+    --transition-slower: 800ms ease;
+    --transition-luxury: 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ===== SHADOWS ===== */
+    --shadow-subtle: 0 2px 10px rgba(25, 0, 66, 0.08);
+    --shadow-medium: 0 4px 20px rgba(25, 0, 66, 0.12);
+    --shadow-strong: 0 8px 40px rgba(25, 0, 66, 0.18);
+    --shadow-glow: 0 0 30px rgba(228, 209, 255, 0.4);
+    --shadow-star: 0 0 20px rgba(255, 255, 255, 0.8);
+    
+    /* ===== BORDERS ===== */
+    --border-thin: 1px solid rgba(25, 0, 66, 0.1);
+    --border-medium: 2px solid var(--color-primary);
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+    --border-radius-full: 50%;
+    
+    /* ===== Z-INDEX ===== */
+    --z-behind: -1;
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-fixed: 300;
+    --z-modal-backdrop: 400;
+    --z-modal: 500;
+    --z-tooltip: 600;
+    --z-max: 9999;
+    
+    /* ===== ANIMATIONS ===== */
+    --animation-twinkle: twinkle 3s ease-in-out infinite;
+    --animation-float: float 6s ease-in-out infinite;
+    --animation-shimmer: shimmer 2s linear infinite;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+/* 
+ * Mobile: < 768px
+ * Tablet: 768px - 1024px
+ * Desktop: > 1024px
+ * Large: > 1400px
+ */

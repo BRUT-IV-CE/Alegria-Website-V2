@@ -1,0 +1,424 @@
+/**
+ * ALEGRIA PARIS - Animations
+ * ===========================
+ * Premium, subtle animations inspired by stars and constellations
+ */
+
+/* ===== KEYFRAMES ===== */
+
+/* Star twinkle effect */
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Gentle floating */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(228, 209, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(228, 209, 255, 0.6);
+    }
+}
+
+/* Fade in up */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in down */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Star rotation */
+@keyframes rotate-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Constellation draw */
+@keyframes draw-line {
+    from {
+        stroke-dashoffset: 1000;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ===== ANIMATION CLASSES ===== */
+
+/* Twinkle stars */
+.twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+.twinkle-delay-1 {
+    animation-delay: 0.5s;
+}
+
+.twinkle-delay-2 {
+    animation-delay: 1s;
+}
+
+.twinkle-delay-3 {
+    animation-delay: 1.5s;
+}
+
+.twinkle-delay-4 {
+    animation-delay: 2s;
+}
+
+/* Float */
+.float {
+    animation: float 6s ease-in-out infinite;
+}
+
+.float-slow {
+    animation: float 8s ease-in-out infinite;
+}
+
+.float-fast {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Pulse glow */
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Shimmer text */
+.shimmer-text {
+    background: linear-gradient(
+        90deg,
+        var(--color-primary) 0%,
+        var(--color-secondary-lavender) 25%,
+        var(--color-primary) 50%,
+        var(--color-secondary-lavender) 75%,
+        var(--color-primary) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+}
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+
+/* Base class for reveal */
+[data-reveal] {
+    opacity: 0;
+    transition: all var(--transition-slower);
+}
+
+[data-reveal].revealed {
+    opacity: 1;
+}
+
+/* Reveal up */
+[data-reveal="up"] {
+    transform: translateY(40px);
+}
+
+[data-reveal="up"].revealed {
+    transform: translateY(0);
+}
+
+/* Reveal down */
+[data-reveal="down"] {
+    transform: translateY(-40px);
+}
+
+[data-reveal="down"].revealed {
+    transform: translateY(0);
+}
+
+/* Reveal left */
+[data-reveal="left"] {
+    transform: translateX(-40px);
+}
+
+[data-reveal="left"].revealed {
+    transform: translateX(0);
+}
+
+/* Reveal right */
+[data-reveal="right"] {
+    transform: translateX(40px);
+}
+
+[data-reveal="right"].revealed {
+    transform: translateX(0);
+}
+
+/* Reveal scale */
+[data-reveal="scale"] {
+    transform: scale(0.9);
+}
+
+[data-reveal="scale"].revealed {
+    transform: scale(1);
+}
+
+/* Reveal fade only */
+[data-reveal="fade"].revealed {
+    opacity: 1;
+}
+
+/* Stagger delays for multiple elements */
+[data-reveal-delay="1"] {
+    transition-delay: 0.1s;
+}
+
+[data-reveal-delay="2"] {
+    transition-delay: 0.2s;
+}
+
+[data-reveal-delay="3"] {
+    transition-delay: 0.3s;
+}
+
+[data-reveal-delay="4"] {
+    transition-delay: 0.4s;
+}
+
+[data-reveal-delay="5"] {
+    transition-delay: 0.5s;
+}
+
+/* ===== STAR BACKGROUND ANIMATION ===== */
+
+.stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: twinkle 3s ease-in-out infinite;
+}
+
+.star--small {
+    width: 2px;
+    height: 2px;
+}
+
+.star--large {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* ===== HOVER EFFECTS ===== */
+
+/* Lift on hover */
+.hover-lift {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Glow on hover */
+.hover-glow {
+    transition: box-shadow var(--transition-normal);
+}
+
+.hover-glow:hover {
+    box-shadow: var(--shadow-glow);
+}
+
+/* Scale on hover */
+.hover-scale {
+    transition: transform var(--transition-normal);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Shine effect on hover */
+.hover-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 60%
+    );
+    transform: translateX(-100%) rotate(45deg);
+    transition: transform 0.6s ease;
+}
+
+.hover-shine:hover::after {
+    transform: translateX(100%) rotate(45deg);
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+
+.page-transition-enter {
+    opacity: 0;
+}
+
+.page-transition-enter-active {
+    opacity: 1;
+    transition: opacity 400ms ease-in;
+}
+
+.page-transition-exit {
+    opacity: 1;
+}
+
+.page-transition-exit-active {
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+}
+
+/* ===== LOADING ANIMATION ===== */
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+}
+
+.loader-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    animation: float 1s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Diamond loader */
+.loader-diamond {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--color-secondary-lavender);
+    transform: rotate(45deg);
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}

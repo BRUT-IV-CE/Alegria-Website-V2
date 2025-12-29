@@ -1,0 +1,200 @@
+/**
+ * ALEGRIA PARIS - Typography System
+ * ==================================
+ * Titles: Cinzel Bold Uppercase
+ * Subtitles: Montserrat Light Uppercase
+ * Paragraphs: Montserrat Light Lowercase
+ */
+
+/* ===== GOOGLE FONTS IMPORT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6,
+.heading {
+    font-family: var(--font-title);
+    font-weight: var(--font-title-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    line-height: var(--line-height-tight);
+    color: var(--color-primary);
+}
+
+h1, .h1 {
+    font-size: var(--text-h1);
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-secondary-pink);
+}
+
+h2, .h2 {
+    font-size: var(--text-h2);
+}
+
+h3, .h3 {
+    font-size: var(--text-h3);
+}
+
+h4, .h4 {
+    font-size: var(--text-h4);
+}
+
+/* Hero specific */
+.hero-title {
+    font-size: var(--text-hero);
+    letter-spacing: var(--tracking-widest);
+}
+
+/* ===== SUBTITLES ===== */
+.subtitle,
+.subtitle-lg,
+.subtitle-sm {
+    font-family: var(--font-body);
+    font-weight: var(--font-body-weight-light);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    line-height: var(--line-height-normal);
+}
+
+.subtitle {
+    font-size: var(--text-subtitle);
+}
+
+.subtitle-lg {
+    font-size: var(--text-h4);
+}
+
+.subtitle-sm {
+    font-size: var(--text-small);
+}
+
+/* ===== PARAGRAPHS ===== */
+p,
+.paragraph {
+    font-family: var(--font-body);
+    font-weight: var(--font-body-weight-light);
+    font-size: var(--text-body);
+    line-height: var(--line-height-relaxed);
+    text-transform: none;
+}
+
+.paragraph-lead {
+    font-size: calc(var(--text-body) * 1.2);
+    line-height: var(--line-height-relaxed);
+}
+
+.paragraph-small {
+    font-size: var(--text-small);
+}
+
+/* ===== TEXT UTILITIES ===== */
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-lowercase {
+    text-transform: lowercase;
+}
+
+.text-capitalize {
+    text-transform: capitalize;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Colors */
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-white {
+    color: var(--color-white);
+}
+
+.text-secondary-pink {
+    color: var(--color-secondary-pink);
+}
+
+.text-secondary-lavender {
+    color: var(--color-secondary-lavender);
+}
+
+/* Weights */
+.font-light {
+    font-weight: var(--font-body-weight-light);
+}
+
+.font-regular {
+    font-weight: var(--font-body-weight-regular);
+}
+
+.font-medium {
+    font-weight: var(--font-body-weight-medium);
+}
+
+.font-bold {
+    font-weight: var(--font-title-weight);
+}
+
+/* ===== LINKS ===== */
+.link {
+    position: relative;
+    color: var(--color-primary);
+    transition: color var(--transition-normal);
+}
+
+.link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width var(--transition-normal);
+}
+
+.link:hover::after {
+    width: 100%;
+}
+
+.link-light {
+    color: var(--color-white);
+}
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.text-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+}
+
+.text-divider::before,
+.text-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-secondary-lavender), transparent);
+}
+
+.decorative-star::before {
+    content: '✧';
+    margin-right: var(--space-xs);
+    color: var(--color-secondary-lavender);
+}
+
+.decorative-star::after {
+    content: '✧';
+    margin-left: var(--space-xs);
+    color: var(--color-secondary-lavender);
+}
