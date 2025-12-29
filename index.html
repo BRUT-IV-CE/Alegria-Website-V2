@@ -30,6 +30,7 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="assets/styles/main.css">
+    <link rel="stylesheet" href="assets/styles/hero-stars.css">
     
     <title>Alegria Paris - Joaillerie d'Exception | Diamants de Synthèse</title>
 </head>
@@ -95,10 +96,10 @@
         
         <!-- Hero Section -->
         <section class="hero" aria-labelledby="hero-title">
-            <div class="hero-background">
-                <!-- PLACEHOLDER: Image héro immersive - ciel étoilé / univers luxueux -->
-                <img src="assets/images/hero-home.jpg" alt="" aria-hidden="true">
-            </div>
+                <div class="hero-background">
+                    <!-- Animated starfield replaces static hero image -->
+                    <div id="hero-stars" aria-hidden="true"></div>
+                </div>
             <div class="hero-overlay"></div>
             <div class="stars-container" aria-hidden="true"></div>
             
@@ -524,6 +525,8 @@
     </footer>
     
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script src="assets/scripts/hero-stars.js"></script>
     <script src="assets/scripts/main.js"></script>
 </body>
 </html>

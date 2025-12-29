@@ -15,6 +15,12 @@
     transition: all var(--transition-normal);
 }
 
+/* Prevent horizontal overflow caused by positioned/transformed elements */
+html,
+body {
+    overflow-x: hidden;
+}
+
 .header--transparent {
     background-color: transparent;
 }
@@ -164,7 +170,8 @@
     .main-nav {
         position: fixed;
         top: 0;
-        right: -100%;
+        right: 0;
+        transform: translateX(100%);
         width: 80%;
         max-width: 400px;
         height: 100vh;
@@ -172,11 +179,16 @@
         flex-direction: column;
         justify-content: center;
         padding: var(--space-2xl);
-        transition: right var(--transition-slow);
+        transition: transform var(--transition-slow);
     }
     
     .main-nav.active {
-        right: 0;
+        transform: translateX(0);
+    }
+
+    /* Prevent background scrolling when mobile menu is open */
+    body.menu-open {
+        overflow: hidden;
     }
     
     .nav-list {

@@ -27,6 +27,28 @@ Tertiaire:  #000000  /* Noir pur */
             #FFFFFF  /* Blanc pur */
 ```
 
+### Palette du site
+
+Les couleurs utilisées dans la palette du site (définies dans `assets/styles/variables.css`) :
+
+```css
+--color-primary:            #190042;   /* Violet cosmique profond */
+--color-primary-light:      #2a0a6e;   /* Variante plus claire */
+--color-primary-dark:       #0f0029;   /* Variante plus foncée */
+
+--color-secondary-pink:     #F6DDF0;   /* Rose éthéré */
+--color-secondary-lavender: #E4D1FF;   /* Lavande lumineuse */
+
+--color-white:              #FFFFFF;   /* Blanc pur */
+--color-black:              #000000;   /* Noir pur */
+
+/* Overlays (RGBA pour superpositions et dégradés) */
+--color-overlay:            rgba(25, 0, 66, 0.85);
+--color-overlay-light:      rgba(25, 0, 66, 0.6);
+
+/* Utilisation : `color: var(--color-primary);` ou `background: var(--color-secondary-pink);` */
+```
+
 ### Typographie
 
 | Élément | Police | Poids | Casse |
