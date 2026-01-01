@@ -19,6 +19,11 @@
     background-color: #f5f5f0;
 }
 
+/* Height reserved for the fixed "Suivant" button (used to avoid overlap on mobile) */
+.rolex-configurator {
+    --rolex-next-offset: 96px; /* default button area height */
+}
+
 /* ===== GRANDE IMAGE CENTRALE ===== */
 .rolex-image-container {
     position: absolute;
@@ -561,10 +566,12 @@
         }
     }
 
-    /* Prevent .rolex-options-left from intercepting touches for the fixed button area
-       while keeping option items clickable. Ensures the 'Suivant' button is reachable. */
+    /* Make option panels fully opaque on mobile so the fixed button
+       cannot be seen through translucent backgrounds. Ensure panels
+       remain interactive. */
     .rolex-options-left {
-        pointer-events: none;
+        pointer-events: auto;
+        background-color: #ffffff; /* remove translucency */
     }
 
     .rolex-options-left .rolex-option-item,
@@ -572,6 +579,16 @@
         pointer-events: auto;
         position: relative;
         z-index: 1010; /* keep items above background but below button */
+    }
+
+   .rolex-configurator {
+        padding-bottom: calc(var(--rolex-next-offset) + env(safe-area-inset-bottom));
+    }
+
+    .rolex-options-left,
+    .rolex-thumbnails-right {
+        padding-bottom: calc(var(--rolex-next-offset) + env(safe-area-inset-bottom));
+        background-color: #ffffff; /* ensure thumbnails area is opaque */
     }
     
     /* Barre de progression */
