@@ -620,9 +620,10 @@
 
 /* Mobile portrait */
 @media (max-width: 480px) {
-    /* Header plus compact */
+    /* Header plus compact: keep vertical spacing via padding
+       (avoid fixed height which can cause the logo to overflow) */
     .header {
-        height: 60px;
+        padding: var(--space-sm) 0;
     }
     
     .rolex-configurator {
@@ -765,6 +766,32 @@
         font-size: 14px;
         padding: 12px 20px;
     }
+
+    /* Ensure the mobile menu toggle displays correctly on small screens
+       and hide the duplicate/close button that can render as a block */
+    .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 36px;
+        padding: var(--space-xs);
+        background: transparent;
+    }
+
+    .menu-toggle span {
+        width: 22px;
+        height: 2px;
+        background-color: var(--color-primary);
+        display: block;
+        transition: all var(--transition-normal);
+    }
+
+    /* Hide the close button inside the nav on small screens to avoid
+       a colored rectangle replacing the hamburger icon */
+    .main-nav .menu-close {
+        display: none !important;
+    }
 }
 
 /* Très petits écrans */
@@ -798,6 +825,18 @@
     .btn-rolex-next {
         padding: 10px 20px;
         font-size: 13px;
+    }
+}
+
+/* Extra-small fix: under 390px ensure menu toggle stays visible and
+   the close-button is hidden (fixes the purple rectangle issue) */
+@media (max-width: 390px) {
+    .menu-toggle {
+        display: flex !important;
+    }
+
+    .main-nav .menu-close {
+        display: none !important;
     }
 }
 
