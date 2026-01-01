@@ -40,7 +40,7 @@ body {
     box-shadow: var(--shadow-subtle);
 }
 
-.header.scrolled .nav-link {
+.header.scrolled {
     color: var(--color-primary);
 }
 
@@ -175,7 +175,7 @@ body {
         width: 80%;
         max-width: 400px;
         height: 100vh;
-        background-color: var(--color-primary);
+        background-color: var(--color-white);
         flex-direction: column;
         justify-content: center;
         padding: var(--space-2xl);
