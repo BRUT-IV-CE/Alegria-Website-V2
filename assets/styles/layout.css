@@ -197,7 +197,7 @@ body {
     }
     
     .nav-list .nav-link {
-        color: var(--color-white);
+        color: var(--color-primary);
         font-size: var(--text-body);
     }
     
