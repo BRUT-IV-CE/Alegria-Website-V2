@@ -32,7 +32,64 @@ function initNavigation() {
                 header.classList.remove('scrolled');
             }
         });
+        // Toggle header--solid when the hero overlay is out of view
+        const heroOverlay = document.querySelector('.hero-overlay');
+        if (heroOverlay) {
+            const overlayObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        header.classList.add('header--solid');
+                    } else {
+                        header.classList.remove('header--solid');
+                    }
+                });
+            }, { root: null, threshold: 0 });
+
+            overlayObserver.observe(heroOverlay);
+        }
     }
+            let heroVisible = false;
+
+            const heroOverlay = document.querySelector('.hero-overlay');
+            if (heroOverlay) {
+                // Initialize heroVisible based on initial intersection
+                const initRect = heroOverlay.getBoundingClientRect();
+                heroVisible = (initRect.top < window.innerHeight && initRect.bottom > 0);
+
+                const overlayObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        heroVisible = entry.isIntersecting;
+
+                        if (!entry.isIntersecting) {
+                            // Overlay left viewport: make header solid. Apply scrolled state depending on current scroll.
+                            header.classList.add('header--solid');
+                            if (window.scrollY > 50) {
+                                header.classList.add('scrolled');
+                            }
+                        } else {
+                            // Overlay visible: keep header transparent and remove scrolled/solid states
+                            header.classList.remove('header--solid');
+                            header.classList.remove('scrolled');
+                        }
+                    });
+                }, { root: null, threshold: 0 });
+
+                overlayObserver.observe(heroOverlay);
+            }
+
+            window.addEventListener('scroll', () => {
+                // If hero is visible, keep header transparent regardless of scroll
+                if (heroVisible) {
+                    header.classList.remove('scrolled');
+                    return;
+                }
+
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
 
     // Mobile menu toggle
     if (menuToggle && mainNav) {

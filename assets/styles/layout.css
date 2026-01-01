@@ -26,7 +26,7 @@ body {
 }
 
 .header--solid {
-    background-color: var(--color-white);
+    background-color: var(--color-primary);
     box-shadow: var(--shadow-subtle);
 }
 
@@ -42,6 +42,16 @@ body {
 
 .header.scrolled {
     color: var(--color-primary);
+}
+
+/* When header is in scrolled state, ensure nav links use primary color
+   even if other modifier classes like header--transparent are present */
+.header.scrolled .nav-list .nav-link {
+    color: var(--color-primary);
+}
+
+.header.scrolled .menu-toggle span {
+    background-color: var(--color-primary);
 }
 
 .header.scrolled .logo-light {
@@ -99,7 +109,7 @@ body {
 }
 
 .header--solid .nav-list .nav-link {
-    color: var(--color-primary);
+    color: var(--color-white);
 }
 
 /* Navigation Dropdown */
@@ -158,7 +168,7 @@ body {
 }
 
 .header--solid .menu-toggle span {
-    background-color: var(--color-primary);
+    background-color: var(--color-white);
 }
 
 /* Mobile Navigation */
