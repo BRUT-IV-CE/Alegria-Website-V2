@@ -1,467 +1,458 @@
 /**
- * ALEGRIA PARIS - Ring Configurator
- * ==================================
- * Complete frontend configurator for custom rings
+ * ALEGRIA PARIS - Ring Configurator (Rolex Style)
+ * ================================================
+ * Configurateur de bijoux avec navigation par étapes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize if on configurator page
-    if (!document.querySelector('.configurator')) return;
+    if (!document.querySelector('.rolex-configurator')) return;
     
-    initConfigurator();
+    initRolexConfigurator();
 });
 
 /**
- * Configurator State
+ * État du configurateur
  */
-const configuratorState = {
-    goldType: null,      // '14k' or '18k'
-    goldColor: null,     // 'yellow', 'white', 'rose'
-    ringSize: null,      // 46-62
-    setting: null,       // 'solitaire' or 'none'
-    diamond: null,       // { carat: '0.30', price: 890 }
-    
-    // Pricing
+const configState = {
+    currentStep: 0,
+    selections: {
+        goldType: null,
+        goldColor: null,
+        ringSize: null,
+        setting: null,
+        diamond: null
+    },
     prices: {
-        base: 0,
+        basePrice: 500,
         goldType: {
             '14k': 0,
             '18k': 200
         },
         goldColor: {
             'yellow': 0,
-            'white': 0,
-            'rose': 50
+            'white': 50,
+            'rose': 100
         },
         setting: {
-            'none': 0,
-            'solitaire': 150
+            'alliance': 0,
+            'solitaire': 200
         },
         diamonds: {
-            '0.30': { price: 890, label: '0.30 ct' },
-            '0.50': { price: 1490, label: '0.50 ct' },
-            '0.70': { price: 2190, label: '0.70 ct' },
-            '1.00': { price: 3490, label: '1.00 ct' },
-            '1.50': { price: 5990, label: '1.50 ct' },
-            '2.00': { price: 8990, label: '2.00 ct' }
+            '0.30': 890,
+            '0.50': 1490,
+            '0.70': 2190,
+            '1.00': 3490,
+            '1.50': 5990,
+            '2.00': 8990
         }
-    },
-    
-    // External checkout URL base
-    checkoutBaseUrl: 'https://pay.sumup.com/b2c/checkout'
+    }
 };
 
 /**
- * Initialize Configurator
+ * Configuration des étapes
  */
-function initConfigurator() {
-    initGoldTypeOptions();
-    initColorOptions();
-    initSizeOptions();
-    initSettingOptions();
-    initDiamondOptions();
-    initCTAButtons();
+const steps = [
+    {
+        title: "Choisissez le type d'or",
+        key: 'goldType',
+        options: [
+            {
+                value: '14k',
+                title: 'Or 14K',
+                subtitle: '585 millièmes',
+                image: '../assets/images/configurator/14k-preview.jpg',
+                thumbnail: '../assets/images/configurator/thumb-14k.jpg'
+            },
+            {
+                value: '18k',
+                title: 'Or 18K',
+                subtitle: '750 millièmes (Recommandé)',
+                image: '../assets/images/configurator/18k-preview.jpg',
+                thumbnail: '../assets/images/configurator/thumb-18k.jpg'
+            }
+        ]
+    },
+    {
+        title: "Choisissez la couleur de l'or",
+        key: 'goldColor',
+        options: [
+            {
+                value: 'yellow',
+                title: 'Or Jaune',
+                subtitle: 'Classique et intemporel',
+                image: '../assets/images/configurator/yellow-gold.jpg',
+                thumbnail: '../assets/images/configurator/thumb-yellow.jpg'
+            },
+            {
+                value: 'white',
+                title: 'Or Blanc',
+                subtitle: 'Élégant et moderne',
+                image: '../assets/images/configurator/white-gold.jpg',
+                thumbnail: '../assets/images/configurator/thumb-white.jpg'
+            },
+            {
+                value: 'rose',
+                title: 'Or Rose',
+                subtitle: 'Romantique et tendance',
+                image: '../assets/images/configurator/rose-gold.jpg',
+                thumbnail: '../assets/images/configurator/thumb-rose.jpg'
+            }
+        ]
+    },
+    {
+        title: "Choisissez la taille de bague",
+        key: 'ringSize',
+        options: [
+            { value: '46', title: 'Taille 46', image: '../assets/images/configurator/size-46.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '48', title: 'Taille 48', image: '../assets/images/configurator/size-48.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '50', title: 'Taille 50', image: '../assets/images/configurator/size-50.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '52', title: 'Taille 52', subtitle: 'Taille moyenne', image: '../assets/images/configurator/size-52.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '54', title: 'Taille 54', image: '../assets/images/configurator/size-54.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '56', title: 'Taille 56', image: '../assets/images/configurator/size-56.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '58', title: 'Taille 58', image: '../assets/images/configurator/size-58.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '60', title: 'Taille 60', image: '../assets/images/configurator/size-60.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' }
+        ]
+    },
+    {
+        title: "Choisissez le type de monture",
+        key: 'setting',
+        options: [
+            {
+                value: 'alliance',
+                title: 'Alliance Simple',
+                subtitle: 'Sans diamant central',
+                image: '../assets/images/configurator/alliance.jpg',
+                thumbnail: '../assets/images/configurator/thumb-alliance.jpg'
+            },
+            {
+                value: 'solitaire',
+                title: 'Solitaire',
+                subtitle: 'Avec diamant central',
+                image: '../assets/images/configurator/solitaire.jpg',
+                thumbnail: '../assets/images/configurator/thumb-solitaire.jpg'
+            }
+        ]
+    },
+    {
+        title: "Choisissez votre diamant",
+        key: 'diamond',
+        condition: () => configState.selections.setting === 'solitaire',
+        options: [
+            {
+                value: '0.30',
+                title: '0.30 carat',
+                subtitle: '890 €',
+                image: '../assets/images/configurator/diamond-030.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-030.jpg'
+            },
+            {
+                value: '0.50',
+                title: '0.50 carat',
+                subtitle: '1 490 €',
+                image: '../assets/images/configurator/diamond-050.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-050.jpg'
+            },
+            {
+                value: '0.70',
+                title: '0.70 carat',
+                subtitle: '2 190 €',
+                image: '../assets/images/configurator/diamond-070.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-070.jpg'
+            },
+            {
+                value: '1.00',
+                title: '1.00 carat',
+                subtitle: '3 490 €',
+                image: '../assets/images/configurator/diamond-100.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-100.jpg'
+            },
+            {
+                value: '1.50',
+                title: '1.50 carat',
+                subtitle: '5 990 €',
+                image: '../assets/images/configurator/diamond-150.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-150.jpg'
+            },
+            {
+                value: '2.00',
+                title: '2.00 carat',
+                subtitle: '8 990 €',
+                image: '../assets/images/configurator/diamond-200.jpg',
+                thumbnail: '../assets/images/configurator/thumb-diamond-200.jpg'
+            }
+        ]
+    }
+];
+
+/**
+ * Initialisation du configurateur
+ */
+function initRolexConfigurator() {
+    loadFromLocalStorage();
+    renderStep();
     
-    // Set default selections
-    selectGoldType('18k');
-    selectGoldColor('white');
-    selectRingSize('52');
-    selectSetting('solitaire');
-    selectDiamond('1.50');
+    // Bouton suivant
+    document.getElementById('nextStepBtn').addEventListener('click', nextStep);
     
-    updateSummary();
-    updatePreview();
+    // Boutons du modal
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('modifyBtn').addEventListener('click', closeModal);
+    document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+    document.getElementById('quoteBtn').addEventListener('click', handleQuote);
 }
 
 /**
- * Gold Type Selection (14k / 18k)
+ * Afficher l'étape courante
  */
-function initGoldTypeOptions() {
-    const goldTypeBtns = document.querySelectorAll('[data-gold-type]');
+function renderStep() {
+    const step = steps[configState.currentStep];
     
-    goldTypeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const type = btn.dataset.goldType;
-            selectGoldType(type);
-        });
-    });
-}
-
-function selectGoldType(type) {
-    configuratorState.goldType = type;
-    
-    // Update UI
-    document.querySelectorAll('[data-gold-type]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.goldType === type);
-    });
-    
-    updateSelectedLabel('goldType', type.toUpperCase());
-    updateSummary();
-    updatePreview();
-}
-
-/**
- * Gold Color Selection
- */
-function initColorOptions() {
-    const colorSwatches = document.querySelectorAll('[data-gold-color]');
-    
-    colorSwatches.forEach(swatch => {
-        swatch.addEventListener('click', () => {
-            const color = swatch.dataset.goldColor;
-            selectGoldColor(color);
-        });
-    });
-}
-
-function selectGoldColor(color) {
-    configuratorState.goldColor = color;
-    
-    // Update UI
-    document.querySelectorAll('[data-gold-color]').forEach(swatch => {
-        swatch.classList.toggle('active', swatch.dataset.goldColor === color);
-    });
-    
-    const colorLabels = {
-        'yellow': 'Or Jaune',
-        'white': 'Or Blanc',
-        'rose': 'Or Rose'
-    };
-    
-    updateSelectedLabel('goldColor', colorLabels[color]);
-    updateSummary();
-    updatePreview();
-}
-
-/**
- * Ring Size Selection
- */
-function initSizeOptions() {
-    const sizeBtns = document.querySelectorAll('[data-ring-size]');
-    
-    sizeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const size = btn.dataset.ringSize;
-            selectRingSize(size);
-        });
-    });
-}
-
-function selectRingSize(size) {
-    configuratorState.ringSize = size;
-    
-    // Update UI
-    document.querySelectorAll('[data-ring-size]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.ringSize === size);
-    });
-    
-    updateSelectedLabel('ringSize', size);
-    updateSummary();
-}
-
-/**
- * Setting Selection (with/without setting)
- */
-function initSettingOptions() {
-    const settingCards = document.querySelectorAll('[data-setting]');
-    
-    settingCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const setting = card.dataset.setting;
-            selectSetting(setting);
-        });
-    });
-}
-
-function selectSetting(setting) {
-    configuratorState.setting = setting;
-    
-    // Update UI
-    document.querySelectorAll('[data-setting]').forEach(card => {
-        card.classList.toggle('active', card.dataset.setting === setting);
-    });
-    
-    const settingLabels = {
-        'none': 'Sans serti',
-        'solitaire': 'Solitaire'
-    };
-    
-    updateSelectedLabel('setting', settingLabels[setting]);
-    
-    // Show/hide diamond options based on setting
-    const diamondSection = document.querySelector('.option-group--diamond');
-    if (diamondSection) {
-        diamondSection.style.display = setting === 'solitaire' ? 'block' : 'none';
+    // Vérifier la condition de l'étape
+    if (step.condition && !step.condition()) {
+        nextStep();
+        return;
     }
     
-    updateSummary();
-    updatePreview();
+    // Mettre à jour le titre et l'indicateur
+    document.getElementById('stepNumber').textContent = configState.currentStep + 1;
+    document.getElementById('stepTitle').textContent = step.title;
+    
+    // Afficher les options
+    renderOptions(step);
+
+    
+    // Mettre à jour la barre de progression
+    updateProgress();
+    
+    // Mettre à jour l'image principale
+    updateMainImage();
 }
 
 /**
- * Diamond Selection
+ * Afficher les options à gauche
  */
-function initDiamondOptions() {
-    const diamondCards = document.querySelectorAll('[data-diamond]');
+function renderOptions(step) {
+    const optionList = document.getElementById('optionList');
+    optionList.innerHTML = '';
     
-    diamondCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const carat = card.dataset.diamond;
-            selectDiamond(carat);
-        });
+    step.options.forEach(option => {
+        const optionItem = document.createElement('button');
+        optionItem.className = 'rolex-option-item';
+        optionItem.dataset.value = option.value;
+        
+        if (configState.selections[step.key] === option.value) {
+            optionItem.classList.add('active');
+        }
+        
+        optionItem.innerHTML = `
+            <span class="rolex-option-item-title">${option.title}</span>
+            ${option.subtitle ? `<span class="rolex-option-item-subtitle">${option.subtitle}</span>` : ''}
+        `;
+        
+        optionItem.addEventListener('click', () => selectOption(step.key, option.value, option.image));
+        
+        optionList.appendChild(optionItem);
     });
 }
 
-function selectDiamond(carat) {
-    configuratorState.diamond = {
-        carat: carat,
-        price: configuratorState.prices.diamonds[carat].price,
-        label: configuratorState.prices.diamonds[carat].label
-    };
+/**
+ * Sélectionner une option
+ */
+function selectOption(key, value, image) {
+    configState.selections[key] = value;
     
-    // Update UI
-    document.querySelectorAll('[data-diamond]').forEach(card => {
-        card.classList.toggle('active', card.dataset.diamond === carat);
+    // Mettre à jour l'interface
+    document.querySelectorAll('.rolex-option-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.value === value);
     });
     
-    updateSelectedLabel('diamond', configuratorState.diamond.label);
-    updateSummary();
-    updatePreview();
+    document.querySelectorAll('.rolex-thumbnail').forEach(thumb => {
+        thumb.classList.toggle('active', thumb.dataset.value === value);
+    });
+    
+    // Mettre à jour l'image principale
+    const mainImage = document.getElementById('mainProductImage');
+    mainImage.style.opacity = '0';
+    
+    setTimeout(() => {
+        mainImage.src = image;
+        mainImage.style.opacity = '1';
+    }, 300);
+    
+    // Sauvegarder
+    saveToLocalStorage();
 }
 
 /**
- * Update selected label display
+ * Passer à l'étape suivante
  */
-function updateSelectedLabel(option, value) {
-    const labelElement = document.querySelector(`[data-selected="${option}"]`);
-    if (labelElement) {
-        labelElement.textContent = value;
+function nextStep() {
+    const currentStepData = steps[configState.currentStep];
+    
+    // Vérifier qu'une option est sélectionnée
+    if (!configState.selections[currentStepData.key]) {
+        alert('Veuillez sélectionner une option avant de continuer.');
+        return;
+    }
+    
+    configState.currentStep++;
+    
+    // Si on a fini toutes les étapes
+    if (configState.currentStep >= steps.length) {
+        showSummary();
+        return;
+    }
+    
+    renderStep();
+}
+
+/**
+ * Mettre à jour la barre de progression
+ */
+function updateProgress() {
+    const progress = ((configState.currentStep + 1) / steps.length) * 100;
+    document.getElementById('progressFill').style.width = `${progress}%`;
+}
+
+/**
+ * Mettre à jour l'image principale
+ */
+function updateMainImage() {
+    const step = steps[configState.currentStep];
+    const selectedValue = configState.selections[step.key];
+    
+    if (selectedValue) {
+        const option = step.options.find(opt => opt.value === selectedValue);
+        if (option) {
+            document.getElementById('mainProductImage').src = option.image;
+        }
     }
 }
 
 /**
- * Calculate total price
+ * Afficher le récapitulatif
  */
-function calculateTotal() {
-    const state = configuratorState;
-    const prices = state.prices;
+function showSummary() {
+    const modal = document.getElementById('summaryModal');
+    modal.classList.add('active');
     
-    let total = prices.base;
+    // Remplir les informations
+    document.getElementById('summaryGoldType').textContent = 
+        steps[0].options.find(o => o.value === configState.selections.goldType)?.title || '-';
     
-    // Add gold type price
-    if (state.goldType) {
-        total += prices.goldType[state.goldType];
+    document.getElementById('summaryGoldColor').textContent = 
+        steps[1].options.find(o => o.value === configState.selections.goldColor)?.title || '-';
+    
+    document.getElementById('summaryRingSize').textContent = 
+        `Taille ${configState.selections.ringSize || '-'}`;
+    
+    document.getElementById('summarySetting').textContent = 
+        steps[3].options.find(o => o.value === configState.selections.setting)?.title || '-';
+    
+    if (configState.selections.setting === 'solitaire' && configState.selections.diamond) {
+        document.getElementById('summaryDiamond').textContent = 
+            `${configState.selections.diamond} carat`;
+    } else {
+        document.getElementById('summaryDiamond').textContent = 'Aucun';
     }
     
-    // Add gold color price
-    if (state.goldColor) {
-        total += prices.goldColor[state.goldColor];
+    // Calculer et afficher le prix
+    const totalPrice = calculateTotalPrice();
+    document.getElementById('summaryPrice').textContent = `${totalPrice.toLocaleString('fr-FR')} €`;
+    
+    // Image finale
+    document.getElementById('summaryImage').src = document.getElementById('mainProductImage').src;
+}
+
+/**
+ * Fermer le modal
+ */
+function closeModal() {
+    document.getElementById('summaryModal').classList.remove('active');
+    configState.currentStep = 0;
+    renderStep();
+}
+
+/**
+ * Calculer le prix total
+ */
+function calculateTotalPrice() {
+    let total = configState.prices.basePrice;
+    
+    if (configState.selections.goldType) {
+        total += configState.prices.goldType[configState.selections.goldType];
     }
     
-    // Add setting price
-    if (state.setting) {
-        total += prices.setting[state.setting];
+    if (configState.selections.goldColor) {
+        total += configState.prices.goldColor[configState.selections.goldColor];
     }
     
-    // Add diamond price (only if solitaire setting)
-    if (state.setting === 'solitaire' && state.diamond) {
-        total += state.diamond.price;
+    if (configState.selections.setting) {
+        total += configState.prices.setting[configState.selections.setting];
+    }
+    
+    if (configState.selections.setting === 'solitaire' && configState.selections.diamond) {
+        total += configState.prices.diamonds[configState.selections.diamond];
     }
     
     return total;
 }
 
 /**
- * Update summary panel
- */
-function updateSummary() {
-    const state = configuratorState;
-    const total = calculateTotal();
-    
-    // Update individual summary items
-    const summaryItems = {
-        'summary-gold-type': state.goldType ? `Or ${state.goldType.toUpperCase()}` : '-',
-        'summary-gold-color': getColorLabel(state.goldColor),
-        'summary-ring-size': state.ringSize ? `Taille ${state.ringSize}` : '-',
-        'summary-setting': getSettingLabel(state.setting),
-        'summary-diamond': state.setting === 'solitaire' && state.diamond ? state.diamond.label : '-'
-    };
-    
-    Object.entries(summaryItems).forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
-        }
-    });
-    
-    // Update total price
-    const totalElement = document.querySelector('.summary-total-price');
-    if (totalElement) {
-        totalElement.textContent = formatPrice(total);
-    }
-    
-    // Update CTA button state
-    updateCTAState();
-}
-
-function getColorLabel(color) {
-    const labels = {
-        'yellow': 'Or Jaune',
-        'white': 'Or Blanc',
-        'rose': 'Or Rose'
-    };
-    return labels[color] || '-';
-}
-
-function getSettingLabel(setting) {
-    const labels = {
-        'none': 'Sans serti',
-        'solitaire': 'Solitaire'
-    };
-    return labels[setting] || '-';
-}
-
-/**
- * Update preview image
- */
-function updatePreview() {
-    const state = configuratorState;
-    
-    // Generate image key based on selections
-    const imageKey = generateImageKey();
-    
-    // Hide all preview images
-    document.querySelectorAll('.preview-image').forEach(img => {
-        img.classList.remove('active');
-    });
-    
-    // Show matching preview image
-    const activePreview = document.querySelector(`[data-preview="${imageKey}"]`);
-    if (activePreview) {
-        activePreview.classList.add('active');
-    } else {
-        // Show default/placeholder
-        const defaultPreview = document.querySelector('[data-preview="default"]');
-        if (defaultPreview) {
-            defaultPreview.classList.add('active');
-        }
-    }
-}
-
-function generateImageKey() {
-    const state = configuratorState;
-    const parts = [];
-    
-    if (state.goldColor) parts.push(state.goldColor);
-    if (state.goldType) parts.push(state.goldType);
-    if (state.setting) parts.push(state.setting);
-    if (state.setting === 'solitaire' && state.diamond) {
-        parts.push(state.diamond.carat.replace('.', ''));
-    }
-    
-    return parts.join('-');
-}
-
-/**
- * CTA Buttons
- */
-function initCTAButtons() {
-    const checkoutBtn = document.querySelector('[data-action="checkout"]');
-    const quoteBtn = document.querySelector('[data-action="quote"]');
-    
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', handleCheckout);
-    }
-    
-    if (quoteBtn) {
-        quoteBtn.addEventListener('click', handleQuoteRequest);
-    }
-}
-
-function updateCTAState() {
-    const state = configuratorState;
-    const checkoutBtn = document.querySelector('[data-action="checkout"]');
-    
-    // Check if all required options are selected
-    const isComplete = state.goldType && 
-                       state.goldColor && 
-                       state.ringSize && 
-                       state.setting &&
-                       (state.setting !== 'solitaire' || state.diamond);
-    
-    if (checkoutBtn) {
-        checkoutBtn.disabled = !isComplete;
-        checkoutBtn.classList.toggle('btn-disabled', !isComplete);
-    }
-}
-
-/**
- * Handle checkout - redirect to SumUp with parameters
+ * Gestion du paiement
  */
 function handleCheckout() {
-    const state = configuratorState;
-    const total = calculateTotal();
+    const totalPrice = calculateTotalPrice();
     
-    // Build URL parameters
-    const params = new URLSearchParams({
-        product: 'custom-ring',
-        gold_type: state.goldType,
-        gold_color: state.goldColor,
-        ring_size: state.ringSize,
-        setting: state.setting,
-        diamond: state.setting === 'solitaire' ? state.diamond.carat : 'none',
-        price: total,
-        currency: 'EUR'
-    });
+    // Créer une description pour le paiement
+    const description = `Bague personnalisée - Or ${configState.selections.goldType} ${configState.selections.goldColor} - Taille ${configState.selections.ringSize} - ${configState.selections.setting}`;
     
-    // Build checkout URL
-    // TODO: Replace with actual SumUp product URL
-    const checkoutUrl = `${configuratorState.checkoutBaseUrl}?${params.toString()}`;
+    alert(`Redirection vers le paiement pour ${totalPrice}€\n\n${description}`);
     
-    // Redirect to checkout
-    window.location.href = checkoutUrl;
+    // TODO: Implémenter la redirection vers votre système de paiement
+    // window.location.href = `https://votre-systeme-paiement.com?amount=${totalPrice}&description=${encodeURIComponent(description)}`;
 }
 
 /**
- * Handle quote request - redirect to contact with parameters
+ * Demander un devis
  */
-function handleQuoteRequest() {
-    const state = configuratorState;
+function handleQuote() {
+    const totalPrice = calculateTotalPrice();
     
-    // Build URL parameters for contact form pre-fill
-    const params = new URLSearchParams({
-        type: 'quote',
-        product: 'custom-ring',
-        gold_type: state.goldType || '',
-        gold_color: state.goldColor || '',
-        ring_size: state.ringSize || '',
-        setting: state.setting || '',
-        diamond: state.diamond ? state.diamond.carat : ''
-    });
+    const message = `Bonjour, je souhaite un devis pour une bague personnalisée :\n\n` +
+        `- Type d'or : ${configState.selections.goldType}\n` +
+        `- Couleur : ${configState.selections.goldColor}\n` +
+        `- Taille : ${configState.selections.ringSize}\n` +
+        `- Monture : ${configState.selections.setting}\n` +
+        `${configState.selections.diamond ? `- Diamant : ${configState.selections.diamond} carat\n` : ''}` +
+        `\nPrix estimé : ${totalPrice}€`;
     
-    // Redirect to contact page with pre-filled info
-    window.location.href = `/pages/contact.html?${params.toString()}`;
+    window.location.href = `mailto:contact@alegriaparis.com?subject=Demande de devis - Bague personnalisée&body=${encodeURIComponent(message)}`;
 }
 
 /**
- * Format price in EUR
+ * Sauvegarder dans localStorage
  */
-function formatPrice(price) {
-    return new Intl.NumberFormat('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(price);
+function saveToLocalStorage() {
+    try {
+        localStorage.setItem('alegria_configurator', JSON.stringify(configState));
+    } catch (e) {
+        console.warn('Impossible de sauvegarder dans localStorage:', e);
+    }
 }
 
-// Export for external access
-window.AlegriConfigurator = {
-    getState: () => ({ ...configuratorState }),
-    getTotal: calculateTotal,
-    selectGoldType,
-    selectGoldColor,
-    selectRingSize,
-    selectSetting,
-    selectDiamond
-};
+/**
+ * Charger depuis localStorage
+ */
+function loadFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem('alegria_configurator');
+        if (saved) {
+            const savedState = JSON.parse(saved);
+            configState.selections = savedState.selections || {};
+            // On ne restaure pas currentStep pour recommencer à 0
+        }
+    } catch (e) {
+        console.warn('Impossible de charger depuis localStorage:', e);
+    }
+}

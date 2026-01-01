@@ -14,7 +14,7 @@
     
     <title>Créer ton bijou - Configurateur | Alegria Paris</title>
 </head>
-<body class="page page--standard">
+<body class="page page--configurator">
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     
     <!-- Header -->
@@ -44,313 +44,97 @@
         </div>
     </header>
     
-    <main id="main-content" class="main">
+    <main id="main-content" class="main main--fullscreen">
         
-        <!-- Configurator -->
-        <div class="configurator">
+        <!-- Configurateur style Rolex -->
+        <div class="rolex-configurator">
             
-            <!-- Preview Section -->
-            <section class="configurator-preview" aria-label="Aperçu du bijou">
-                <div class="preview-container">
-                    <!-- Default preview -->
-                    <div class="preview-image active" data-preview="default">
-                        <div class="preview-placeholder">
-                            <span class="preview-placeholder-icon">✧</span>
-                            <span class="preview-placeholder-text">Votre création</span>
-                        </div>
-                    </div>
-                    
-                    <!-- PLACEHOLDER: Images pour chaque combinaison d'options -->
-                    <!-- Format: couleur-type-serti-carat -->
-                    
-                    <!-- Or Jaune 18k Solitaire -->
-                    <div class="preview-image" data-preview="yellow-18k-solitaire-030">
-                        <img src="../assets/images/configurator/yellow-18k-solitaire-030.jpg" alt="Bague or jaune 18k solitaire 0.30ct">
-                    </div>
-                    <div class="preview-image" data-preview="yellow-18k-solitaire-050">
-                        <img src="../assets/images/configurator/yellow-18k-solitaire-050.jpg" alt="Bague or jaune 18k solitaire 0.50ct">
-                    </div>
-                    <div class="preview-image" data-preview="yellow-18k-solitaire-070">
-                        <img src="../assets/images/configurator/yellow-18k-solitaire-070.jpg" alt="Bague or jaune 18k solitaire 0.70ct">
-                    </div>
-                    <div class="preview-image" data-preview="yellow-18k-solitaire-100">
-                        <img src="../assets/images/configurator/yellow-18k-solitaire-100.jpg" alt="Bague or jaune 18k solitaire 1.00ct">
-                    </div>
-                    
-                    <!-- Or Blanc 18k Solitaire -->
-                    <div class="preview-image" data-preview="white-18k-solitaire-050">
-                        <img src="../assets/images/configurator/white-18k-solitaire-050.jpg" alt="Bague or blanc 18k solitaire 0.50ct">
-                    </div>
-                    
-                    <!-- Or Rose 18k Solitaire -->
-                    <div class="preview-image" data-preview="rose-18k-solitaire-050">
-                        <img src="../assets/images/configurator/rose-18k-solitaire-050.jpg" alt="Bague or rose 18k solitaire 0.50ct">
-                    </div>
-                    
-                    <!-- Sans serti -->
-                    <div class="preview-image" data-preview="yellow-18k-none">
-                        <img src="../assets/images/configurator/yellow-18k-none.jpg" alt="Alliance or jaune 18k">
-                    </div>
-                    <div class="preview-image" data-preview="white-18k-none">
-                        <img src="../assets/images/configurator/white-18k-none.jpg" alt="Alliance or blanc 18k">
-                    </div>
-                    <div class="preview-image" data-preview="rose-18k-none">
-                        <img src="../assets/images/configurator/rose-18k-none.jpg" alt="Alliance or rose 18k">
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Options Section -->
-            <section class="configurator-options" aria-labelledby="config-title">
+            <!-- Grande image centrale -->
+            <div class="rolex-image-container">
+                <img id="mainProductImage" src="../assets/images/configurator/default.jpg" alt="Votre création" class="rolex-main-image">
                 
-                <div class="configurator-header">
-                    <nav class="breadcrumb" aria-label="Fil d'Ariane">
-                        <a href="../index.html">Accueil</a>
-                        <span class="breadcrumb-separator">›</span>
-                        <span>Créer ton bijou</span>
-                    </nav>
-                    <h1 id="config-title" class="configurator-title">Créer ta bague</h1>
-                    <p class="configurator-subtitle">Personnalisez chaque détail de votre création unique.</p>
-                </div>
-                
-                <!-- Gold Type -->
-                <div class="option-group">
-                    <div class="option-label">
-                        <span class="option-label-text">Type d'or</span>
-                        <span class="option-label-value" data-selected="goldType">18K</span>
-                    </div>
-                    <div class="option-buttons">
-                        <button class="option-btn" data-gold-type="14k">
-                            <span class="option-btn-title">Or 14K</span>
-                            <span class="option-btn-subtitle">585 millièmes</span>
-                        </button>
-                        <button class="option-btn active" data-gold-type="18k">
-                            <span class="option-btn-title">Or 18K</span>
-                            <span class="option-btn-subtitle">750 millièmes</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Gold Color -->
-                <div class="option-group">
-                    <div class="option-label">
-                        <span class="option-label-text">Couleur de l'or</span>
-                        <span class="option-label-value" data-selected="goldColor">Or Jaune</span>
-                    </div>
-                    <div class="color-options">
-                        <button class="color-swatch color-swatch--yellow active" data-gold-color="yellow" aria-label="Or Jaune">
-                            <span class="color-swatch-label">Jaune</span>
-                        </button>
-                        <button class="color-swatch color-swatch--white" data-gold-color="white" aria-label="Or Blanc">
-                            <span class="color-swatch-label">Blanc</span>
-                        </button>
-                        <button class="color-swatch color-swatch--rose" data-gold-color="rose" aria-label="Or Rose">
-                            <span class="color-swatch-label">Rose</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Ring Size -->
-                <div class="option-group">
-                    <div class="option-label">
-                        <span class="option-label-text">Taille de bague</span>
-                        <span class="option-label-value" data-selected="ringSize">52</span>
-                    </div>
-                    <div class="size-options">
-                        <button class="size-btn" data-ring-size="46">46</button>
-                        <button class="size-btn" data-ring-size="48">48</button>
-                        <button class="size-btn" data-ring-size="50">50</button>
-                        <button class="size-btn active" data-ring-size="52">52</button>
-                        <button class="size-btn" data-ring-size="54">54</button>
-                        <button class="size-btn" data-ring-size="56">56</button>
-                        <button class="size-btn" data-ring-size="58">58</button>
-                        <button class="size-btn" data-ring-size="60">60</button>
-                        <button class="size-btn" data-ring-size="62">62</button>
-                    </div>
-                    <a href="guide-tailles.html" class="size-guide-link">Guide des tailles</a>
-                </div>
-                
-                <!-- Setting Type -->
-                <div class="option-group">
-                    <div class="option-label">
-                        <span class="option-label-text">Type de monture</span>
-                        <span class="option-label-value" data-selected="setting">Solitaire</span>
-                    </div>
-                    <div class="setting-options">
-                        <button class="setting-card" data-setting="none">
-                            <div class="setting-card-image">
-                                <!-- PLACEHOLDER: Icône alliance simple -->
-                                <img src="../assets/images/configurator/icon-none.svg" alt="">
-                            </div>
-                            <span class="setting-card-title">Alliance</span>
-                            <span class="setting-card-description">Sans diamant central</span>
-                        </button>
-                        <button class="setting-card active" data-setting="solitaire">
-                            <div class="setting-card-image">
-                                <!-- PLACEHOLDER: Icône solitaire -->
-                                <img src="../assets/images/configurator/icon-solitaire.svg" alt="">
-                            </div>
-                            <span class="setting-card-title">Solitaire</span>
-                            <span class="setting-card-description">Diamant central serti</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Diamond Selection (visible only when solitaire is selected) -->
-                <div class="option-group option-group--diamond">
-                    <div class="option-label">
-                        <span class="option-label-text">Choix du diamant</span>
-                        <span class="option-label-value" data-selected="diamond">0.50 ct</span>
-                    </div>
-                    <div class="diamond-options">
-                        <button class="diamond-card" data-diamond="0.30">
-                            <div class="diamond-card-image">
-                                <!-- PLACEHOLDER: Icône diamant 0.30ct -->
-                                <img src="../assets/images/configurator/diamond-030.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">0.30 ct</span>
-                            <span class="diamond-card-price">890 €</span>
-                        </button>
-                        <button class="diamond-card active" data-diamond="0.50">
-                            <div class="diamond-card-image">
-                                <img src="../assets/images/configurator/diamond-050.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">0.50 ct</span>
-                            <span class="diamond-card-price">1 490 €</span>
-                        </button>
-                        <button class="diamond-card" data-diamond="0.70">
-                            <div class="diamond-card-image">
-                                <img src="../assets/images/configurator/diamond-070.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">0.70 ct</span>
-                            <span class="diamond-card-price">2 190 €</span>
-                        </button>
-                        <button class="diamond-card" data-diamond="1.00">
-                            <div class="diamond-card-image">
-                                <img src="../assets/images/configurator/diamond-100.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">1.00 ct</span>
-                            <span class="diamond-card-price">3 490 €</span>
-                        </button>
-                        <button class="diamond-card" data-diamond="1.50">
-                            <div class="diamond-card-image">
-                                <img src="../assets/images/configurator/diamond-150.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">1.50 ct</span>
-                            <span class="diamond-card-price">5 990 €</span>
-                        </button>
-                        <button class="diamond-card" data-diamond="2.00">
-                            <div class="diamond-card-image">
-                                <img src="../assets/images/configurator/diamond-200.png" alt="">
-                            </div>
-                            <span class="diamond-card-carat">2.00 ct</span>
-                            <span class="diamond-card-price">8 990 €</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Summary -->
-                <div class="configurator-summary">
-                    <h2 class="summary-title">Récapitulatif</h2>
-                    <div class="summary-list">
-                        <div class="summary-item">
-                            <span class="summary-item-label">Type d'or</span>
-                            <span class="summary-item-value" id="summary-gold-type">Or 18K</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Couleur</span>
-                            <span class="summary-item-value" id="summary-gold-color">Or Jaune</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Taille</span>
-                            <span class="summary-item-value" id="summary-ring-size">Taille 52</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Monture</span>
-                            <span class="summary-item-value" id="summary-setting">Solitaire</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-item-label">Diamant</span>
-                            <span class="summary-item-value" id="summary-diamond">0.50 ct</span>
-                        </div>
-                    </div>
-                    <div class="summary-divider"></div>
-                    <div class="summary-total">
-                        <span class="summary-total-label">Total</span>
-                        <span class="summary-total-price">1 690 €</span>
-                    </div>
-                </div>
-                
-                <!-- CTA Buttons -->
-                <div class="configurator-cta">
-                    <button class="btn btn-gold btn-lg" data-action="checkout">
-                        Commander cette création
-                    </button>
-                    <button class="btn btn-secondary" data-action="quote">
-                        Demander un devis personnalisé
+                <!-- Bouton suivant en bas centre -->
+                <div class="rolex-next-button">
+                    <button id="nextStepBtn" class="btn-rolex-next">
+                        <span>Suivant</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
                     </button>
                 </div>
-                
-                <!-- Additional Info -->
-                <div class="mt-xl">
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Livraison & retours</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <p>Livraison offerte en France métropolitaine. Votre création est fabriquée sur commande 
-                                et livrée sous 3 à 4 semaines dans un écrin de luxe. Retours acceptés sous 14 jours.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Certification & garantie</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <p>Chaque diamant est certifié par un laboratoire indépendant (IGI). Votre bijou est 
-                                accompagné d'un certificat d'authenticité et bénéficie d'une garantie à vie.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <button class="accordion-header">
-                            <span>Besoin d'aide ?</span>
-                            <span class="accordion-icon">+</span>
-                        </button>
-                        <div class="accordion-content">
-                            <div class="accordion-body">
-                                <p>Notre équipe est à votre disposition pour vous accompagner dans votre choix. 
-                                <a href="contact.html" class="link">Contactez-nous</a> ou consultez notre 
-                                <a href="faq.html" class="link">FAQ</a>.</p>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            
+            <!-- Options à gauche -->
+            <div class="rolex-options-left">
+                <div class="rolex-step-indicator">
+                    <span class="step-number" id="stepNumber">1</span>
+                    <span class="step-total">/ 5</span>
                 </div>
                 
-            </section>
+                <h2 class="rolex-step-title" id="stepTitle">Choisissez le type d'or</h2>
+                
+                <!-- Options cliquables -->
+                <div class="rolex-option-list" id="optionList">
+                    <!-- Les options seront insérées dynamiquement par JS -->
+                </div>
+            </div>
+            
+            <!-- Indicateur de progression -->
+            <div class="rolex-progress-bar">
+                <div class="rolex-progress-fill" id="progressFill" style="width: 20%"></div>
+            </div>
             
         </div>
         
     </main>
     
-    <!-- Minimal Footer for configurator -->
-    <footer class="footer" role="contentinfo" style="padding: var(--space-xl) 0;">
-        <div class="container">
-            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
-                <p class="footer-copyright">© 2025 Alegria Paris. Tous droits réservés.</p>
-                <div class="footer-legal">
-                    <a href="mentions-legales.html">Mentions légales</a>
-                    <a href="cgv.html">CGV</a>
-                    <a href="contact.html">Contact</a>
+    <!-- Modal récapitulatif -->
+    <div class="rolex-modal" id="summaryModal">
+        <div class="rolex-modal-content">
+            <button class="rolex-modal-close" id="closeModal">&times;</button>
+            <h2 class="rolex-modal-title">Votre création</h2>
+            
+            <div class="rolex-summary">
+                <img id="summaryImage" src="../assets/images/configurator/default.jpg" alt="Votre bijou" class="rolex-summary-image">
+                
+                <div class="rolex-summary-details">
+                    <div class="rolex-summary-item">
+                        <span class="summary-label">Type d'or</span>
+                        <span class="summary-value" id="summaryGoldType">-</span>
+                    </div>
+                    <div class="rolex-summary-item">
+                        <span class="summary-label">Couleur</span>
+                        <span class="summary-value" id="summaryGoldColor">-</span>
+                    </div>
+                    <div class="rolex-summary-item">
+                        <span class="summary-label">Taille</span>
+                        <span class="summary-value" id="summaryRingSize">-</span>
+                    </div>
+                    <div class="rolex-summary-item">
+                        <span class="summary-label">Type de monture</span>
+                        <span class="summary-value" id="summarySetting">-</span>
+                    </div>
+                    <div class="rolex-summary-item">
+                        <span class="summary-label">Diamant</span>
+                        <span class="summary-value" id="summaryDiamond">-</span>
+                    </div>
+                    
+                    <div class="rolex-summary-divider"></div>
+                    
+                    <div class="rolex-summary-total">
+                        <span class="summary-total-label">Prix total</span>
+                        <span class="summary-total-price" id="summaryPrice">0 €</span>
+                    </div>
+                    
+                    <div class="rolex-summary-actions">
+                        <button class="btn btn-gold btn-lg" id="checkoutBtn">Commander</button>
+                        <button class="btn btn-secondary" id="quoteBtn">Demander un devis</button>
+                        <button class="btn btn-text" id="modifyBtn">Modifier ma création</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
     
     <script src="../assets/scripts/main.js"></script>
     <script src="../assets/scripts/configurator.js"></script>
