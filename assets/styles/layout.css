@@ -83,12 +83,14 @@ body {
     display: none;
 }
 
+/* For pages that start with a solid header, show the light logo by default
+   and swap to the dark logo when the header receives the `scrolled` class. */
 .header--solid .logo-light {
-    display: none;
+    display: block;
 }
 
 .header--solid .logo-dark {
-    display: block;
+    display: none;
 }
 
 /* Main Navigation */
@@ -209,6 +211,12 @@ body {
     .nav-list .nav-link {
         color: var(--color-primary);
         font-size: var(--text-body);
+    }
+
+    /* If the header is `header--solid` on inner pages, ensure mobile menu
+       links remain the primary color (override more specific rules). */
+    .header--solid .nav-list .nav-link {
+        color: var(--color-primary);
     }
     
     .nav-dropdown {
@@ -476,7 +484,8 @@ body {
 .page-header {
     background-color: var(--color-primary);
     color: var(--color-white);
-    padding: var(--space-4xl) 0 var(--space-3xl);
+    /* Reduced vertical padding for tighter page headers */
+    padding: var(--space-2xl) 0 var(--space-2xl);
     text-align: center;
 }
 
