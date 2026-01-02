@@ -53,6 +53,14 @@
     z-index: 1000;
 }
 
+/* Layout buttons side-by-side */
+.rolex-next-button {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
 .btn-rolex-next {
     display: flex;
     align-items: center;
@@ -83,6 +91,32 @@
 .btn-rolex-next svg {
     width: 20px;
     height: 20px;
+}
+
+/* Previous button style (paired with the next button) */
+.btn-rolex-prev {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: transparent;
+    color: #1a1a1a;
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-rolex-prev:hover {
+    transform: translateY(-2px);
+    border-color: rgba(0,0,0,0.18);
+}
+
+.btn-rolex-prev svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* ===== OPTIONS À GAUCHE ===== */

@@ -193,6 +193,10 @@ function initRolexConfigurator() {
     
     // Bouton suivant
     document.getElementById('nextStepBtn').addEventListener('click', nextStep);
+
+    // Bouton précédent (si présent)
+    const prevBtn = document.getElementById('prevStepBtn');
+    if (prevBtn) prevBtn.addEventListener('click', prevStep);
     
     // Boutons du modal
     document.getElementById('closeModal').addEventListener('click', closeModal);
@@ -304,6 +308,25 @@ function nextStep() {
     }
     
     renderStep();
+}
+
+/**
+ * Revenir à l'étape précédente
+ */
+function prevStep() {
+    const modal = document.getElementById('summaryModal');
+    // Si le modal de récapitulatif est ouvert, le fermer et revenir à la dernière étape
+    if (modal && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        configState.currentStep = Math.max(0, steps.length - 1);
+        renderStep();
+        return;
+    }
+
+    if (configState.currentStep > 0) {
+        configState.currentStep--;
+        renderStep();
+    }
 }
 
 /**
