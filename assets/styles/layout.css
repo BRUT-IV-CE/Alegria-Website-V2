@@ -230,7 +230,7 @@ body {
     }
     
     .nav-dropdown-link {
-        color: var(--color-accent);
+        color: var(--color-lavender);
     }
 }
 
@@ -290,7 +290,7 @@ body {
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
     margin-bottom: var(--space-md);
-    color: var(--color-champagne);
+    color: var(--color-lavender);
 }
 
 .footer-links {

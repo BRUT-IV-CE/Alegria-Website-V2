@@ -112,12 +112,12 @@ table {
 
 /* Focus visible for accessibility */
 :focus-visible {
-    outline: 2px solid var(--color-silver);
+    outline: 2px solid var(--color-lavender);
     outline-offset: 3px;
 }
 
 /* Selection styling */
 ::selection {
-    background-color: var(--color-champagne);
+    background-color: var(--color-lavender);
     color: var(--color-primary);
 }

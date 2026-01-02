@@ -46,29 +46,29 @@
     
     <main id="main-content" class="main main--fullscreen">
         
-        <!-- Configurateur style Rolex -->
-        <div class="rolex-configurator">
+        <!-- Configurateur -->
+        <div class="configurator-root">
             
             <!-- Grande image centrale -->
-            <div class="rolex-image-container view-0">
-                <img id="mainProductImage" src="../assets/images/configurator/default.jpg" alt="Votre création" class="rolex-main-image">
+            <div class="configurator-image-container view-0">
+                <img id="mainProductImage" src="../assets/images/configurator/default.jpg" alt="Votre création" class="configurator-main-image">
 
                 <!-- Pastilles côté droit pour changer l'angle de vue -->
-                <div class="rolex-thumbnails-right" id="viewDots" aria-hidden="false">
-                    <button class="rolex-view-dot active" data-view="0" title="Vue principale"></button>
-                    <button class="rolex-view-dot" data-view="1" title="Vue légèrement tournée"></button>
-                    <button class="rolex-view-dot" data-view="2" title="Vue opposée"></button>
+                <div class="configurator-thumbnails-right" id="viewDots" aria-hidden="false">
+                    <button class="configurator-view-dot active" data-view="0" title="Vue principale"></button>
+                    <button class="configurator-view-dot" data-view="1" title="Vue légèrement tournée"></button>
+                    <button class="configurator-view-dot" data-view="2" title="Vue opposée"></button>
                 </div>
 
                 <!-- Boutons de navigation en bas centre -->
-                <div class="rolex-next-button">
-                    <button id="prevStepBtn" class="btn-rolex-prev" aria-label="Précédent">
+                <div class="configurator-next-button">
+                    <button id="prevStepBtn" class="btn-configurator-prev" aria-label="Précédent">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M12 19l-7-7 7-7"/>
                         </svg>
                     </button>
 
-                    <button id="nextStepBtn" class="btn-rolex-next">
+                    <button id="nextStepBtn" class="btn-configurator-next">
                         <span>Suivant</span>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -78,29 +78,29 @@
             </div>
             
             <!-- Options en bas (overlay, horizontal) -->
-            <div class="rolex-options-bottom" aria-hidden="false">
+            <div class="configurator-options-bottom" aria-hidden="false">
 
-                <h2 class="rolex-step-title" id="stepTitle">Choisissez le type d'or</h2>
+                <h2 class="configurator-step-title" id="stepTitle">Choisissez le type d'or</h2>
 
                 <!-- Options cliquables (ID conservé pour JS) -->
-                <div class="rolex-option-list" id="optionList">
+                <div class="configurator-option-list" id="optionList">
                     <!-- Les options seront insérées dynamiquement par JS -->
                 </div>
             </div>
             
             <!-- Indicateur de progression -->
-            <div class="rolex-progress-bar">
-                <div class="rolex-progress-fill" id="progressFill" style="width: 20%"></div>
+            <div class="configurator-progress-bar">
+                <div class="configurator-progress-fill" id="progressFill" style="width: 20%"></div>
             </div>
 
             <!-- Barre d'information fixe en bas (nom, prix, +) -->
-            <div class="rolex-bottom-bar" role="region" aria-label="Résumé produit">
-                <div class="rolex-bottom-left">
-                    <div class="rolex-bottom-model" id="bottomModelName">Modèle : Inconnu</div>
-                    <div class="rolex-bottom-price" id="bottomModelPrice">0 €</div>
+            <div class="configurator-bottom-bar" role="region" aria-label="Résumé produit">
+                <div class="configurator-bottom-left">
+                    <div class="configurator-bottom-model" id="bottomModelName">Modèle : Inconnu</div>
+                    <div class="configurator-bottom-price" id="bottomModelPrice">0 €</div>
                 </div>
-                <div class="rolex-bottom-actions">
-                    <button id="plusDetailsBtn" class="btn-rolex-plus" aria-label="Détails">+</button>
+                <div class="configurator-bottom-actions">
+                    <button id="plusDetailsBtn" class="btn-configurator-plus" aria-label="Détails">+</button>
                 </div>
             </div>
 
@@ -125,44 +125,44 @@
     </main>
     
     <!-- Modal récapitulatif -->
-    <div class="rolex-modal" id="summaryModal">
-        <div class="rolex-modal-content">
-            <button class="rolex-modal-close" id="closeModal">&times;</button>
-            <h2 class="rolex-modal-title">Votre création</h2>
+    <div class="configurator-modal" id="summaryModal">
+        <div class="configurator-modal-content">
+            <button class="configurator-modal-close" id="closeModal">&times;</button>
+            <h2 class="configurator-modal-title">Votre création</h2>
             
-            <div class="rolex-summary">
-                <img id="summaryImage" src="../assets/images/configurator/default.jpg" alt="Votre bijou" class="rolex-summary-image">
+            <div class="configurator-summary">
+                <img id="summaryImage" src="../assets/images/configurator/default.jpg" alt="Votre bijou" class="configurator-summary-image">
                 
-                <div class="rolex-summary-details">
-                    <div class="rolex-summary-item" data-step="0" role="button" tabindex="0" aria-label="Modifier le type d'or">
+                <div class="configurator-summary-details">
+                    <div class="configurator-summary-item" data-step="0" role="button" tabindex="0" aria-label="Modifier le type d'or">
                         <span class="summary-label">Type d'or</span>
                         <span class="summary-value" id="summaryGoldType">-</span>
                     </div>
-                    <div class="rolex-summary-item" data-step="1" role="button" tabindex="0" aria-label="Modifier la couleur de l'or">
+                    <div class="configurator-summary-item" data-step="1" role="button" tabindex="0" aria-label="Modifier la couleur de l'or">
                         <span class="summary-label">Couleur</span>
                         <span class="summary-value" id="summaryGoldColor">-</span>
                     </div>
-                    <div class="rolex-summary-item" data-step="2" role="button" tabindex="0" aria-label="Modifier la taille">
+                    <div class="configurator-summary-item" data-step="2" role="button" tabindex="0" aria-label="Modifier la taille">
                         <span class="summary-label">Taille</span>
                         <span class="summary-value" id="summaryRingSize">-</span>
                     </div>
-                    <div class="rolex-summary-item" data-step="3" role="button" tabindex="0" aria-label="Modifier le type de monture">
+                    <div class="configurator-summary-item" data-step="3" role="button" tabindex="0" aria-label="Modifier le type de monture">
                         <span class="summary-label">Type de monture</span>
                         <span class="summary-value" id="summarySetting">-</span>
                     </div>
-                    <div class="rolex-summary-item" data-step="4" role="button" tabindex="0" aria-label="Modifier le diamant">
+                    <div class="configurator-summary-item" data-step="4" role="button" tabindex="0" aria-label="Modifier le diamant">
                         <span class="summary-label">Diamant</span>
                         <span class="summary-value" id="summaryDiamond">-</span>
                     </div>
                     
-                    <div class="rolex-summary-divider"></div>
+                    <div class="configurator-summary-divider"></div>
                     
-                    <div class="rolex-summary-total">
+                    <div class="configurator-summary-total">
                         <span class="summary-total-label">Prix total</span>
                         <span class="summary-total-price" id="summaryPrice">0 €</span>
                     </div>
                     
-                    <div class="rolex-summary-actions">
+                    <div class="configurator-summary-actions">
                         <button class="btn btn-gold btn-lg" id="checkoutBtn">Commander</button>
                         <button class="btn btn-secondary" id="quoteBtn">Demander un devis</button>
                         <button class="btn btn-text" id="modifyBtn">Modifier ma création</button>
@@ -170,6 +170,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     
     <script src="../assets/scripts/main.js"></script>

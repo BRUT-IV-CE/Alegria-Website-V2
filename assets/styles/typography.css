@@ -121,11 +121,11 @@ p,
 }
 
 .text-champagne {
-    color: var(--color-champagne);
+    color: var(--color-lavender);
 }
 
 .text-silver {
-    color: var(--color-silver);
+    color: var(--color-lavender);
 }
 
 /* Weights */
@@ -184,7 +184,7 @@ p,
     content: '';
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--color-silver), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-lavender), transparent);
 }
 
 .decorative-star::before {

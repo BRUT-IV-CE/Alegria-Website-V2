@@ -13,11 +13,6 @@
     --color-primary: #190042;
     --color-primary-rgb: 25, 0, 66;
     
-    /* Palette supplémentaire (définie par le client) */
-    /* Accent & neutrals : dérivés de la marque, utilisables pour CTA, fonds et textes */
-    --color-accent: #D4AF37;           /* Or Royal - Accent pour CTA */
-    --color-silver: #E5E4E2;           /* Argent Pur - bordures / séparateurs */
-    --color-champagne: #F7E7CE;       /* Champagne - fond doux alternatif */
 
     /* Texte principal : noir de marque (remplacé) */
     --color-black: #000000;            /* Noir - corps de texte (mis à jour) */
@@ -32,6 +27,16 @@
     --color-primary-dark: #0f0029;
     --color-overlay: rgba(25, 0, 66, 0.85);
     --color-overlay-light: rgba(25, 0, 66, 0.6);
+    /* ===== CONFIGURATOR SPECIFIC ACCENTS (shared) ===== */
+    --configurator-cream: #fff8ee;
+    --configurator-soft-lavender: #f5f0ff;
+    --configurator-cream-light: #fafafa;
+    --configurator-cream-2: #fffef8;
+    --configurator-muted: #666666;
+    --configurator-muted-2: #999999;
+    --configurator-accent-muted: #cecece;
+    --configurator-accent-lavender: var(--color-lavender);
+    --configurator-accent-primary-dark: var(--color-primary-dark);
     
     /* ===== TYPOGRAPHY ===== */
     /* Titles: Cinzel Bold Uppercase */

@@ -1,8 +1,331 @@
 /**
- * ALEGRIA PARIS - Ring Configurator Styles (Rolex Style)
- * =======================================================
- * Configurateur de bijoux inspiré du design Rolex
+ * ALEGRIA PARIS - Ring Configurator Styles (cleaned)
+ * Consolidated duplicate rules, fixed small typos, grouped shared properties.
  */
+
+/* ===== MAIN FULLSCREEN ===== */
+.main--fullscreen { padding: 0; margin: 0; }
+
+/* ===== CONFIGURATOR LAYOUT ===== */
+.configurator-root {
+    /* Configurator-specific tokens (shared accents moved to variables.css) */
+    --configurator-bg-base: var(--color-primary-dark);
+    --configurator-gradient-start: rgba(var(--color-lavender-rgb), 0.55);
+    --configurator-gradient-end: rgba(var(--color-primary-rgb), 0.92);
+    --configurator-text: var(--color-white);
+    --configurator-next-offset: 96px; /* default button area height */
+
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+    background: radial-gradient(circle at 40% 35%, var(--configurator-gradient-start) 0%, var(--configurator-gradient-end) 55%), var(--configurator-bg-base);
+    color: var(--configurator-text);
+}
+
+/* ===== IMAGE AREA ===== */
+.configurator-image-container { position: absolute; inset: 0; display:flex; align-items:center; justify-content:center; z-index:1; }
+.configurator-main-image { max-width:75%; max-height:80%; object-fit:contain; transition: transform 0.45s ease, opacity 0.35s ease; transform-origin:center center; }
+.configurator-image-container.view-0 .configurator-main-image { transform: rotateY(0deg) scale(1); }
+.configurator-image-container.view-1 .configurator-main-image { transform: rotateY(-12deg) scale(1.02); }
+.configurator-image-container.view-2 .configurator-main-image { transform: rotateY(12deg) scale(1.02); }
+.configurator-image-container.preview-0 .configurator-main-image { transform: rotateY(0deg) scale(1.01); }
+.configurator-image-container.preview-1 .configurator-main-image { transform: rotateY(-10deg) scale(1.03); }
+.configurator-image-container.preview-2 .configurator-main-image { transform: rotateY(10deg) scale(1.03); }
+
+/* ===== NEXT / PREV BUTTONS ===== */
+.configurator-next-button {
+    position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+    z-index: 1000; display:flex; gap:12px; align-items:center; justify-content:center;
+}
+
+/* Shared base */
+.btn-configurator-next, .btn-configurator-prev {
+    display:flex; align-items:center; gap:8px; border-radius:50px; font-family:var(--font-body); font-size:14px; font-weight:600; cursor:pointer; transition: all 0.22s ease;
+}
+.btn-configurator-next { padding:8px 16px; background:linear-gradient(180deg, var(--color-lavender), var(--configurator-cream)); color:var(--color-primary); border:1px solid rgba(0,0,0,0.06); box-shadow:0 8px 30px rgba(0,0,0,0.12); }
+.btn-configurator-next:hover { transform:translateY(-2px); box-shadow:0 10px 34px rgba(0,0,0,0.16); }
+.btn-configurator-next:active { transform:translateY(0); }
+.btn-configurator-next svg { width:20px; height:20px; }
+.btn-configurator-prev { padding:10px 16px; background:linear-gradient(180deg, var(--color-white), var(--color-lavender)); color:var(--color-primary); border:1px solid var(--color-lavender); transition: all 0.18s ease; }
+.btn-configurator-prev:hover { transform:translateY(-2px); border-color:var(--color-primary); }
+.btn-configurator-prev svg { width:18px; height:18px; }
+
+/* Ensure touch/click works and priority stacking
+   Re-asserted later in responsive blocks where needed */
+.configurator-next-button { z-index:2000 !important; pointer-events:auto; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
+
+/* ===== LEFT OPTIONS ===== */
+.configurator-options-left { display:block; position:absolute; top:120px; left:30px; width:300px; max-height:calc(100vh - var(--configurator-next-offset) - 160px); overflow:auto; z-index:1300; padding:16px; background:transparent; }
+
+/* Bottom overlay style */
+.configurator-options-bottom { position:absolute; left:50%; transform:translateX(-50%); bottom:140px; width:calc(100% - 120px); max-width:1200px; z-index:1200; display:flex; flex-direction:column; gap:10px; pointer-events:auto; }
+.configurator-options-bottom .configurator-step-indicator, .configurator-options-bottom .configurator-step-title { color:rgba(255,255,255,0.9); padding:8px 12px; }
+.configurator-options-bottom .configurator-option-list { display:flex; flex-direction:row; gap:12px; overflow-x:auto; padding:8px 12px; width:100%; box-sizing:border-box; }
+.configurator-options-bottom .configurator-option-item { min-width:160px; background:rgba(10,10,12,0.45); color:var(--configurator-soft-lavender); border:1px solid rgba(var(--color-lavender-rgb),0.06); backdrop-filter:blur(6px); padding:12px 16px; border-radius:12px; }
+.configurator-options-bottom .configurator-option-item:hover { box-shadow:0 6px 24px rgba(0,0,0,0.45); }
+.configurator-options-bottom .configurator-option-item.active { border-color:var(--configurator-accent-lavender); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(var(--color-lavender-rgb),0.04)); color:var(--color-white); }
+
+/* Inline-text variant used for the bottom plain text style */
+.configurator-options-bottom.inline-text .configurator-option-item { background:none !important; color:rgba(255,255,255,0.85) !important; border:none !important; padding:0 !important; min-width:auto !important; border-radius:0 !important; box-shadow:none !important; display:inline-block; font-size:16px; text-align:left; transition: color 0.16s ease, opacity 0.16s ease; }
+.configurator-options-bottom.inline-text .configurator-option-item-title { margin:0 !important; font-weight:500 !important; }
+.configurator-options-bottom.inline-text .configurator-option-item-subtitle { display:none !important; }
+.configurator-options-bottom.inline-text .configurator-option-item:not(.active) { opacity:0.55; }
+.configurator-options-bottom.inline-text .configurator-option-item:hover { opacity:0.85; }
+.configurator-options-bottom.inline-text .configurator-option-item.active { color:var(--configurator-accent-muted) !important; font-weight:700 !important; opacity:1 !important; }
+
+.configurator-step-indicator { font-family:var(--font-heading); font-size:14px; color:var(--configurator-muted); margin-bottom:16px; flex-shrink:0; }
+.configurator-step-title { font-family:var(--font-heading); font-size:24px; font-weight:600; color:var(--color-black); line-height:1.3; flex-shrink:0; }
+
+/* ===== OPTION LIST / ITEMS ===== */
+.configurator-option-list { display:flex; flex-direction:column; gap:12px; overflow-y:auto; padding-right:10px; margin-right:-10px; }
+.configurator-option-item { padding:16px 20px; background-color:white; border:2px solid transparent; border-radius:6px; cursor:pointer; transition:all 0.3s ease; font-family:var(--font-body); font-size:16px; color:var(--color-black); text-align:left; }
+.configurator-option-item:hover { border-color:var(--configurator-accent-lavender); background-color:var(--configurator-cream-light); }
+.configurator-option-item.active { border-color:var(--configurator-accent-lavender); background-color:var(--configurator-cream-2); font-weight:600; color:var(--color-black); }
+.configurator-option-item-title { display:block; font-size:16px; font-weight:500; margin-bottom:4px; }
+.configurator-option-item-subtitle { display:block; font-size:13px; color:var(--configurator-muted-2); }
+
+/* ===== THUMBNAILS / VIEW DOTS ===== */
+.configurator-thumbnails-right { position:absolute; top:50%; right:48px; transform:translateY(-50%); z-index:1300; display:flex; flex-direction:column; gap:12px; align-items:center; }
+.configurator-thumbnail-title { font-family:var(--font-body); font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--configurator-muted); margin-bottom:20px; text-align:center; }
+.configurator-thumbnail-list { display:flex; flex-direction:column; gap:16px; align-items:center; }
+.configurator-thumbnail { width:70px; height:70px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); overflow:hidden; cursor:pointer; transition:all 0.25s ease; background-color:rgba(255,255,255,0.03); box-shadow:0 4px 22px rgba(0,0,0,0.45); }
+.configurator-thumbnail:hover { border-color:var(--configurator-accent-lavender); transform:scale(1.05); }
+.configurator-thumbnail.active { border-color:var(--configurator-accent-lavender); box-shadow:0 4px 16px rgba(var(--color-lavender-rgb),0.3); }
+.configurator-thumbnail img { width:100%; height:100%; object-fit:cover; }
+
+.configurator-view-dot { width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.06); border:2px solid rgba(255,255,255,0.08); cursor:pointer; transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.configurator-view-dot img { width:100%; height:100%; object-fit:cover; }
+.configurator-view-dot:hover { transform:scale(1.06); box-shadow:0 8px 20px rgba(0,0,0,0.28); }
+.configurator-view-dot.active { transform:scale(1.2); border:2px solid rgba(255,255,255,0.253); box-shadow:0 10px 30px rgba(197,197,197,0.2); }
+
+/* ===== PROGRESS BAR ===== */
+.configurator-progress-bar { position:absolute; bottom:0; left:0; width:100%; height:4px; background-color:rgba(0,0,0,0.1); z-index:50; }
+.configurator-progress-fill { height:100%; background-color:var(--color-lavender); transition:width 0.5s ease; }
+
+/* ===== MODAL / SUMMARY ===== */
+.configurator-modal { display:none; position:fixed; inset:0; background-color:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; }
+.configurator-modal.active { display:flex; }
+.configurator-modal-content { position:relative; background-color:var(--color-white); max-width:900px; width:90%; max-height:90vh; overflow-y:auto; border-radius:12px; padding:40px; padding-bottom:112px; box-shadow:0 10px 50px rgba(0,0,0,0.3); }
+.configurator-modal-close { position:absolute; top:20px; right:20px; background:none; border:none; font-size:32px; color:#666; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; transition:color 0.3s ease; }
+.configurator-modal-close:hover { color:#1a1a1a; }
+.configurator-modal-title { font-family:var(--font-heading); font-size:32px; font-weight:600; color:#1a1a1a; margin-bottom:30px; text-align:center; }
+
+.configurator-summary { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+.configurator-summary-image { width:100%; height:auto; object-fit:contain; border-radius:8px; }
+.configurator-summary-details { display:flex; flex-direction:column; gap:16px; }
+.configurator-summary-item { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #eee; }
+.configurator-summary-item[role="button"] { cursor:pointer; }
+.configurator-summary-item[role="button"]:hover { background-color:#faf7f2; }
+.summary-label { font-size:14px; color:#666; text-transform:uppercase; letter-spacing:0.5px; }
+.summary-value { font-size:16px; font-weight:600; color:#1a1a1a; }
+.configurator-summary-divider { height:2px; background-color:var(--color-lavender); margin:20px 0; }
+.configurator-summary-bubbles { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; align-items:center; padding:8px 12px; }
+.configurator-summary-bubble { display:flex; flex-direction:column; align-items:center; gap:8px; width:140px; background:transparent; border:none; cursor:pointer; color:#efe8ff; }
+.configurator-summary-bubble:focus { outline:2px solid rgba(212,175,55,0.6); outline-offset:6px; }
+.configurator-summary-bubble-img { width:96px; height:96px; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); border:3px solid rgba(255,255,255,0.06); box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+.configurator-summary-bubble-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.configurator-summary-bubble-label { font-size:13px; text-align:center; color:#efe8ff; }
+.configurator-summary-bubble.empty .configurator-summary-bubble-img { background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.4); font-weight:700; }
+.configurator-summary-actions { position:sticky; bottom:0; display:flex; gap:12px; justify-content:center; align-items:center; padding:12px 16px; background:#ffffff; border-top:1px solid rgba(0,0,0,0.04); z-index:2600; }
+.configurator-summary-actions .btn { box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+
+/* ===== CHOICES HELP PANEL ===== */
+.choices-help-panel { position:fixed; right:20px; bottom:88px; width:360px; max-height:calc(80vh - 40px); background:linear-gradient(180deg, rgba(16,10,26,0.95), rgba(8,4,12,0.9)); color:#efe8ff; border-radius:12px; padding:16px 16px 20px 16px; box-shadow:0 18px 50px rgba(0,0,0,0.6); z-index:3500; overflow:auto; display:none; backdrop-filter:blur(6px); }
+.choices-help-panel[aria-hidden="false"] { display:block; }
+.choices-help-close { position:absolute; top:8px; right:8px; background:none; border:none; color:#fff; font-size:18px; cursor:pointer; }
+.choices-help-title { margin:6px 0 12px 0; font-size:16px; color:#efe8ff; }
+.choices-help-step { margin-bottom:14px; }
+.choices-help-step h4 { margin:0 0 8px 0; font-size:13px; color:#dcd0ff; }
+.choices-help-options { display:flex; gap:8px; flex-wrap:wrap; }
+.choices-help-option { width:76px; height:76px; border-radius:8px; overflow:hidden; background:rgba(255,255,255,0.02); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid transparent; }
+.choices-help-option img { width:100%; height:100%; object-fit:cover; display:block; }
+.choices-help-option.selected { border-color:var(--color-primary); box-shadow:0 8px 22px rgba(212,175,55,0.12); }
+.choices-help-note { font-size:12px; color:rgba(255,255,255,0.65); margin-top:8px; }
+
+/* ===== DETAIL PANEL (BOTTOM WHITE) ===== */
+.choices-detail-panel { position:fixed; left:0; right:0; bottom:0; height:46vh; max-height:560px; background:#ffffff; color:#1a1a1a; border-top-left-radius:14px; border-top-right-radius:14px; box-shadow:0 -20px 60px rgba(4,4,6,0.45); z-index:4000; transform:translateY(110%); transition:transform 320ms cubic-bezier(.22,.9,.3,1); display:flex; flex-direction:column; overflow:hidden; }
+.choices-detail-panel[aria-hidden="false"] { transform:translateY(0%); }
+.choices-detail-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(0,0,0,0.06); }
+.choices-detail-title { font-weight:700; font-size:16px; color:#0b0b0b; }
+.choices-detail-close { background:none; border:none; font-size:18px; cursor:pointer; color:#222; }
+.choices-detail-content { padding:12px 16px; overflow:auto; display:flex; gap:12px; flex-direction:column; }
+.choices-detail-step { display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.choices-detail-step:last-child { border-bottom:none; }
+.choices-detail-thumb { width:84px; height:84px; border-radius:8px; overflow:hidden; background:#f6f6f6; display:flex; align-items:center; justify-content:center; }
+.choices-detail-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.choices-detail-meta { display:flex; flex-direction:column; gap:6px; }
+.choices-detail-meta .title { font-weight:600; color:#111; }
+.choices-detail-meta .subtitle { font-size:13px; color:#666; }
+.choices-detail-meta .price { font-weight:700; color: var(--color-primary); }
+
+/* ===== SUMMARY TOTAL / ACTIONS ===== */
+.configurator-summary-total { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
+.summary-total-label { font-size:18px; font-weight:600; color:#1a1a1a; }
+.summary-total-price { font-size:28px; font-weight:700; color:var(--color-primary); }
+
+/* ===== RESPONSES & RESPONSIVE ===== */
+@media (max-width:1200px) {
+    .configurator-options-left { left:30px; width:280px; padding:24px; }
+    .configurator-thumbnails-right { right:30px; }
+    .configurator-main-image { max-width:55%; }
+    .configurator-step-title { font-size:20px; }
+}
+
+@media (max-width:992px) {
+    .configurator-options-left { left:20px; width:260px; padding:20px; top:100px; }
+    .configurator-thumbnails-right { right:20px; }
+    .configurator-options-left, .configurator-option-list { padding-bottom: calc(var(--configurator-next-offset) + 28px); box-sizing:border-box; }
+    .configurator-summary-bubbles { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; gap:12px; padding:8px 12px; }
+    .configurator-summary-bubble { flex:0 0 auto; min-width:110px; }
+    .configurator-bottom-bar { background:#ffffff; color:#111111; border-top:1px solid rgba(0,0,0,0.06); box-shadow:0 -6px 18px rgba(0,0,0,0.06); z-index:2000; }
+    .configurator-next-button { bottom: calc(64px + 12px); z-index:2100; }
+    .configurator-progress-bar { position:fixed; left:0; right:0; bottom:64px; height:4px; z-index:2050; background-color:rgba(0,0,0,0.06); }
+    .configurator-thumbnail { width:56px; height:56px; }
+    .configurator-main-image { max-width:50%; }
+}
+
+@media (max-width:768px) {
+    .configurator-root { height:auto; min-height:100vh; display:flex; flex-direction:column; overflow-y:auto; padding-bottom: calc(var(--configurator-next-offset) + env(safe-area-inset-bottom)); }
+    .configurator-image-container { position:relative; height:50vh; min-height:300px; max-height:400px; order:1; }
+    .configurator-main-image { max-width:90%; max-height:90%; }
+    .configurator-options-left { position:relative; top:auto; left:auto; width:100%; max-height:none; margin:0; padding:24px 20px 100px 20px; border-radius:0; order:2; overflow:visible; background-color:#ffffff; }
+    .configurator-option-list { max-height:none; overflow:visible; padding-right:0; margin-right:0; padding-bottom: calc(var(--configurator-next-offset) + 28px); }
+    .configurator-option-item { padding:14px 18px; font-size:15px; }
+    .configurator-thumbnails-right { position:absolute; top:50%; right:24px; left:auto; transform:translateY(-50%); order:3; }
+    .configurator-thumbnail-list { flex-direction:row; flex-wrap:wrap; justify-content:center; gap:12px; }
+    .configurator-thumbnail { width:48px; height:48px; }
+    .configurator-next-button { position:fixed; bottom: calc(64px + 16px); left:50%; transform:translateX(-50%); z-index:2100; animation:fadeIn 0.35s ease; }
+    .btn-configurator-next { padding:14px 28px; font-size:15px; box-shadow:0 6px 24px rgba(0,0,0,0.3); }
+    @media (hover: hover) { .configurator-next-button .btn-configurator-next:hover { background-color:#333; transform:translateY(-2px); box-shadow:0 6px 24px rgba(0,0,0,0.2); } }
+    .configurator-progress-bar { position:fixed; bottom:0; }
+    .configurator-summary { grid-template-columns:1fr; gap:24px; }
+    .configurator-modal-content { padding:30px 20px; width:95%; }
+}
+
+@media (max-width:480px) {
+    .configurator-root { height: calc(100vh - 60px); }
+    .configurator-image-container { height:40vh; min-height:250px; max-height:300px; }
+    .configurator-main-image { max-width:85%; max-height:85%; }
+    .configurator-options-left { padding:20px 16px 100px 16px; }
+    .configurator-step-title { font-size:20px; margin-bottom:16px; }
+    .configurator-option-list { gap:10px; padding-bottom: calc(var(--configurator-next-offset) + 28px); }
+    .configurator-option-item { padding:8px 10px; font-size:13px; }
+    .configurator-thumbnail { width:44px; height:44px; border-width:2px; }
+    .btn-configurator-next { padding:12px 24px; font-size:14px; gap:8px; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+    .configurator-modal-content { padding:24px 16px; width:96%; border-radius:8px; }
+}
+
+@media (max-width:360px) {
+    .configurator-image-container { height:35vh; min-height:220px; }
+    .configurator-options-left { padding:16px 12px 100px 12px; }
+    .configurator-step-title { font-size:18px; }
+    .configurator-option-item { padding:10px 14px; }
+    .configurator-thumbnail { width:36px; height:36px; }
+    .btn-configurator-next { padding:10px 20px; font-size:13px; }
+}
+
+/* ===== UTILITIES & ANIMATIONS ===== */
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.configurator-option-item, .configurator-thumbnail { animation: fadeIn 0.3s ease; }
+
+/* Custom scrollbar for option lists */
+.configurator-option-list::-webkit-scrollbar { width:6px; }
+.configurator-option-list::-webkit-scrollbar-track { background:#f1f1f1; border-radius:3px; }
+.configurator-option-list::-webkit-scrollbar-thumb { background:var(--color-lavender); border-radius:3px; }
+.configurator-option-list::-webkit-scrollbar-thumb:hover { background:var(--color-lavender); }
+
+/* Small configurator helpers */
+.configurator-header { margin-bottom: var(--space-2xl); }
+.configurator-title { font-size: var(--text-h2); margin-bottom: var(--space-sm); }
+.configurator-subtitle { font-size: var(--text-body); opacity:0.8; }
+
+/* Option groups / controls */
+.option-group { margin-bottom: var(--space-xl); padding-bottom: var(--space-xl); border-bottom: var(--border-thin); }
+.option-group:last-child { border-bottom:none; }
+.option-label { display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md); }
+.option-label-text { font-family:var(--font-body); font-weight:var(--font-body-weight-medium); font-size:var(--text-small); text-transform:uppercase; letter-spacing:var(--tracking-wider); }
+.option-label-value { font-size:var(--text-small); color:var(--color-lavender); background-color:var(--color-primary); padding:var(--space-xs) var(--space-sm); }
+
+.option-buttons { display:flex; gap:var(--space-sm); flex-wrap:wrap; }
+.option-btn { flex:1; min-width:100px; padding:var(--space-md); border:2px solid var(--color-lavender); background-color:var(--color-white); text-align:center; cursor:pointer; transition:all var(--transition-normal); }
+.option-btn:hover { border-color:var(--color-primary); }
+.option-btn.active { border-color:var(--color-primary); background-color:var(--color-primary); color:var(--color-white); }
+.option-btn-title { font-family:var(--font-title); font-size:var(--text-body); text-transform:uppercase; letter-spacing:var(--tracking-wide); margin-bottom:var(--space-xs); }
+.option-btn-subtitle { font-size:var(--text-caption); opacity:0.7; }
+
+/* Color swatches, size selectors, setting cards, diamonds, summary, cta, steps left as-is but consolidated below */
+.color-options { display:flex; gap:var(--space-md); }
+.color-swatch { position:relative; width:60px; height:60px; border-radius:var(--border-radius-full); cursor:pointer; transition:transform var(--transition-normal), box-shadow var(--transition-normal); border:3px solid transparent; }
+.color-swatch:hover { transform:scale(1.1); }
+.color-swatch.active { border-color:var(--color-primary); box-shadow:var(--shadow-glow); }
+.color-swatch--yellow { background:linear-gradient(135deg,#FFD700,#FFA500); }
+.color-swatch--white { background:linear-gradient(135deg,#F5F5F5,#E8E8E8); }
+.color-swatch--rose { background:linear-gradient(135deg,#E8B4B8,#D4A4A8); }
+.color-swatch-label { position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:var(--text-caption); text-transform:uppercase; letter-spacing:var(--tracking-wide); white-space:nowrap; }
+
+.size-options { display:flex; gap:var(--space-xs); flex-wrap:wrap; }
+.size-btn { width:50px; height:50px; border:2px solid var(--color-lavender); background-color:var(--color-white); font-family:var(--font-body); font-weight:var(--font-body-weight-medium); font-size:var(--text-body); cursor:pointer; transition:all var(--transition-normal); }
+.size-btn:hover { border-color:var(--color-primary); }
+.size-btn.active { border-color:var(--color-primary); background-color:var(--color-primary); color:var(--color-white); }
+.size-guide-link { display:inline-block; margin-top:var(--space-sm); font-size:var(--text-small); color:var(--color-primary); text-decoration:underline; opacity:0.7; transition:opacity var(--transition-normal); }
+.size-guide-link:hover { opacity:1; }
+
+.setting-options { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-md); }
+@media (max-width:768px) { .setting-options { grid-template-columns:1fr; } }
+.setting-card { padding:var(--space-md); border:2px solid var(--color-lavender); background-color:var(--color-white); cursor:pointer; transition:all var(--transition-normal); text-align:center; }
+.setting-card:hover { border-color:var(--color-primary); }
+.setting-card.active { border-color:var(--color-primary); background-color:rgba(25,0,66,0.03); }
+.setting-card-image { width:80px; height:80px; margin:0 auto var(--space-sm); background:var(--color-lavender); border-radius:var(--border-radius-full); display:flex; align-items:center; justify-content:center; }
+.setting-card-image img { width:60%; height:60%; object-fit:contain; }
+.setting-card-title { font-family:var(--font-title); font-size:var(--text-body); text-transform:uppercase; letter-spacing:var(--tracking-wide); margin-bottom:var(--space-xs); }
+.setting-card-description { font-size:var(--text-caption); opacity:0.7; }
+
+.diamond-options { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-md); }
+@media (max-width:768px) { .diamond-options { grid-template-columns:repeat(2,1fr); } }
+.diamond-card { padding:var(--space-md); border:2px solid var(--color-lavender); background-color:var(--color-white); cursor:pointer; transition:all var(--transition-normal); text-align:center; }
+.diamond-card:hover { border-color:var(--color-primary); box-shadow:var(--shadow-subtle); }
+.diamond-card.active { border-color:var(--color-primary); background-color:rgba(25,0,66,0.03); }
+.diamond-card-image { width:60px; height:60px; margin:0 auto var(--space-sm); }
+.diamond-card-image img { width:100%; height:100%; object-fit:contain; }
+.diamond-card-carat { font-family:var(--font-title); font-size:var(--text-body); margin-bottom:var(--space-xs); }
+.diamond-card-price { font-size:var(--text-small); color:var(--color-primary); opacity:0.8; }
+
+.configurator-summary { background-color:var(--color-lavender); padding:var(--space-lg); margin-top:var(--space-xl); border-radius:var(--border-radius-md); }
+.summary-title { font-family:var(--font-title); font-size:var(--text-h4); text-transform:uppercase; letter-spacing:var(--tracking-wide); margin-bottom:var(--space-md); }
+.summary-list { margin-bottom:var(--space-lg); }
+.summary-item { display:flex; justify-content:space-between; padding:var(--space-xs) 0; font-size:var(--text-small); }
+.summary-item-label { opacity:0.7; }
+.summary-item-value { font-weight:var(--font-body-weight-medium); }
+.summary-divider { height:1px; background-color:var(--color-primary); opacity:0.2; margin:var(--space-sm) 0; }
+.summary-total { display:flex; justify-content:space-between; align-items:center; padding-top:var(--space-sm); }
+.summary-total-label { font-size:var(--text-body); text-transform:uppercase; letter-spacing:var(--tracking-wide); }
+.summary-total-price { font-family:var(--font-title); font-size:var(--text-h3); }
+
+.configurator-cta { margin-top:var(--space-xl); display:flex; flex-direction:column; gap:var(--space-md); }
+.configurator-cta .btn { width:100%; justify-content:center; }
+
+.configurator-steps { display:flex; justify-content:center; gap:var(--space-lg); margin-bottom:var(--space-2xl); }
+.step { display:flex; flex-direction:column; align-items:center; gap:var(--space-xs); }
+.step-number { width:40px; height:40px; border:2px solid var(--color-lavender); border-radius:var(--border-radius-full); display:flex; align-items:center; justify-content:center; font-family:var(--font-title); font-size:var(--text-body); transition:all var(--transition-normal); }
+.step.active .step-number, .step.completed .step-number { border-color:var(--color-primary); background-color:var(--color-primary); color:var(--color-white); }
+.step-label { font-size:var(--text-caption); text-transform:uppercase; letter-spacing:var(--tracking-wide); opacity:0.6; }
+.step.active .step-label, .step.completed .step-label { opacity:1; }
+.step-connector { width:60px; height:2px; background-color:var(--color-lavender); margin-top:20px; }
+.step-connector.active { background-color:var(--color-primary); }
+
+/* Ensure navigation overlays sit above content */
+.main-nav.active { z-index:99999 !important; position:relative; pointer-events:auto; }
+.main-nav.active * { z-index:99999 !important; }
+
+/* Small helper rules */
+.menu-toggle { display:flex; align-items:center; justify-content:center; width:44px; height:36px; padding:var(--space-xs); background:transparent; }
+.menu-toggle span { width:22px; height:2px; background-color:var(--color-primary); display:block; transition:all var(--transition-normal); }
+.main-nav .menu-close { display:none !important; }
+
+/* End of cleaned configurator styles */
+.ALEGRIA_PARIS_Ring_Configurator_Style { }
+/* Repeated chunk normalized: use configurator-root and neutral comments */
 
 /* ===== MAIN FULLSCREEN ===== */
 .main--fullscreen {
@@ -10,24 +333,30 @@
     margin: 0;
 }
 
-/* ===== CONFIGURATOR ROLEX LAYOUT ===== */
-.rolex-configurator {
+/* ===== CONFIGURATOR LAYOUT (studio style) ===== */
+.configurator-root {
+    /* Configurator-specific tokens (shared accents moved to variables.css) */
+    --configurator-bg-base: var(--color-primary-dark);
+    --configurator-gradient-start: rgba(var(--color-lavender-rgb), 0.55);
+    --configurator-gradient-end: rgba(var(--color-primary-rgb), 0.92);
+    --configurator-text: var(--color-white);
+
     position: relative;
     width: 100vw;
     height: calc(100vh - 80px);
     overflow: hidden;
-    /* Fond studio photo immersif : gradient radial sombre/violet -> noir */
-    background: radial-gradient(circle at 40% 35%, rgba(85,60,120,0.55) 0%, rgba(20,12,30,0.92) 55%), #0a0710;
-    color: #eee;
+    /* Studio background: radial gradient */
+    background: radial-gradient(circle at 40% 35%, var(--configurator-gradient-start) 0%, var(--configurator-gradient-end) 55%), var(--configurator-bg-base);
+    color: var(--configurator-text);
 }
 
 /* Height reserved for the fixed "Suivant" button (used to avoid overlap on mobile) */
-.rolex-configurator {
-    --rolex-next-offset: 96px; /* default button area height */
+.configurator-root {
+    --configurator-next-offset: 96px; /* default button area height */
 }
 
-/* ===== GRANDE IMAGE CENTRALE ===== */
-.rolex-image-container {
+/* ===== LARGE CENTRAL IMAGE ===== */
+.configurator-image-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -39,7 +368,7 @@
     z-index: 1;
 }
 
-.rolex-main-image {
+.configurator-main-image {
     max-width: 75%;
     max-height: 80%;
     object-fit: contain;
@@ -47,18 +376,18 @@
     transform-origin: center center;
 }
 
-/* Variantes de vue (légère rotation/scale pour effet d'angle) */
-.rolex-image-container.view-0 .rolex-main-image { transform: rotateY(0deg) scale(1); }
-.rolex-image-container.view-1 .rolex-main-image { transform: rotateY(-12deg) scale(1.02); }
-.rolex-image-container.view-2 .rolex-main-image { transform: rotateY(12deg) scale(1.02); }
+/* Variants for views (subtle rotation/scale) */
+.configurator-image-container.view-0 .configurator-main-image { transform: rotateY(0deg) scale(1); }
+.configurator-image-container.view-1 .configurator-main-image { transform: rotateY(-12deg) scale(1.02); }
+.configurator-image-container.view-2 .configurator-main-image { transform: rotateY(12deg) scale(1.02); }
 
 /* Preview temporary classes on hover (subtle) */
-.rolex-image-container.preview-0 .rolex-main-image { transform: rotateY(0deg) scale(1.01); }
-.rolex-image-container.preview-1 .rolex-main-image { transform: rotateY(-10deg) scale(1.03); }
-.rolex-image-container.preview-2 .rolex-main-image { transform: rotateY(10deg) scale(1.03); }
+.configurator-image-container.preview-0 .configurator-main-image { transform: rotateY(0deg) scale(1.01); }
+.configurator-image-container.preview-1 .configurator-main-image { transform: rotateY(-10deg) scale(1.03); }
+.configurator-image-container.preview-2 .configurator-main-image { transform: rotateY(10deg) scale(1.03); }
 
 /* ===== BOUTON SUIVANT EN BAS CENTRE ===== */
-.rolex-next-button {
+.configurator-next-button {
     position: absolute;
     bottom: 60px;
     left: 50%;
@@ -66,8 +395,7 @@
     z-index: 1000;
 }
 
-/* Layout buttons side-by-side */
-.rolex-next-button {
+.configurator-next-button {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -75,66 +403,78 @@
 }
 
 
-.btn-rolex-next {
+.btn-configurator-next {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 28px;
-    background: linear-gradient(180deg, var(--color-champagne), #fff8ee);
+    gap: 8px;
+    padding: 8px 16px;;
+    background: linear-gradient(180deg, var(--color-lavender), var(--configurator-cream));
     color: var(--color-primary);
     border: 1px solid rgba(0,0,0,0.06);
     border-radius: 50px;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.22s ease;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.btn-rolex-next:hover {
+.btn-configurator-next:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
 }
 
-.btn-rolex-next:active {
+.btn-configurator-next:active {
     transform: translateY(0);
 }
 
-.btn-rolex-next svg {
+.btn-configurator-next svg {
     width: 20px;
     height: 20px;
 }
 
 /* Previous button style (paired with the next button) */
 
-.btn-rolex-prev {
+.btn-configurator-prev {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 10px 16px;
-    background: linear-gradient(180deg, var(--color-white), var(--color-champagne));
+    background: linear-gradient(180deg, var(--color-white), var(--color-lavender));
     color: var(--color-primary);
-    border: 1px solid var(--color-silver);
+    border: 1px solid var(--color-lavender);
     border-radius: 50px;
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.18s ease;
 }
 
-.btn-rolex-prev:hover { transform: translateY(-2px); border-color: var(--color-primary); }
+.btn-configurator-prev:hover { transform: translateY(-2px); border-color: var(--color-primary); }
 
-.btn-rolex-prev svg {
+.btn-configurator-prev svg {
     width: 18px;
     height: 18px;
 }
 
 /* ===== OPTIONS À GAUCHE ===== */
-.rolex-options-left { display: none; }
+.configurator-options-left {
+    display: block;
+    position: absolute;
+    top: 120px;
+    left: 30px;
+    width: 300px;
+    max-height: calc(100vh - var(--configurator-next-offset) - 160px);
+    overflow: auto;
+    z-index: 1300;
+    padding: 16px;
+    background: transparent;
+}
 
 /* Options overlay en bas — horizontal */
-.rolex-options-bottom {
+.configurator-options-bottom {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -145,14 +485,13 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    align-items: center;
     pointer-events: auto;
 }
 
-.rolex-options-bottom .rolex-step-indicator,
-.rolex-options-bottom .rolex-step-title { color: rgba(255,255,255,0.9); text-align: center; }
+.configurator-options-bottom .configurator-step-indicator,
+.configurator-options-bottom .configurator-step-title { color: rgba(255,255,255,0.9); padding: 8px 12px; }
 
-.rolex-options-bottom .rolex-option-list {
+.configurator-options-bottom .configurator-option-list {
     display: flex;
     flex-direction: row;
     gap: 12px;
@@ -162,47 +501,86 @@
     box-sizing: border-box;
 }
 
-.rolex-options-bottom .rolex-option-item {
+.configurator-options-bottom .configurator-option-item {
     min-width: 160px;
     background: rgba(10,10,12,0.45);
-    color: #f5f0ff;
-    border: 1px solid rgba(212,175,55,0.06);
+    color: var(--configurator-soft-lavender);
+    border: 1px solid rgba(var(--color-lavender-rgb), 0.06);
     backdrop-filter: blur(6px);
     padding: 12px 16px;
     border-radius: 12px;
 }
 
-.rolex-options-bottom .rolex-option-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.45); }
+.configurator-options-bottom .configurator-option-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.45); }
 
-.rolex-options-bottom .rolex-option-item.active {
-    border-color: rgba(212,175,55,0.9);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(212,175,55,0.04));
-    color: #fff;
+.configurator-options-bottom .configurator-option-item.active {
+    border-color: var(--configurator-accent-lavender);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(var(--color-lavender-rgb), 0.04));
+    color: var(--color-white);
 }
 
-.rolex-step-indicator {
+.configurator-step-indicator {
     font-family: var(--font-heading);
     font-size: 14px;
-    color: #666;
+    color: var(--configurator-muted);
     margin-bottom: 16px;
     flex-shrink: 0;
 }
 
+/* Override: display options as plain text (no box). Visual emphasis only via text color/weight */
+.configurator-options-bottom .configurator-option-item {
+    background: none !important;
+    color: rgba(255,255,255,0.85) !important;
+    border: none !important;
+    padding: 0 !important;
+    min-width: auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: inline-block;
+    font-size: 16px;
+    text-align: left;
+    transition: color 0.16s ease, opacity 0.16s ease;
+}
+
+.configurator-options-bottom .configurator-option-item-title {
+    margin: 0 !important;
+    font-weight: 500 !important;
+}
+
+.configurator-options-bottom .configurator-option-item-subtitle { display: none !important; }
+
+/* Unselected items dimmed; selected uses accent color on text only */
+.configurator-options-bottom .configurator-option-item:not(.active) {
+    opacity: 0.55;
+}
+
+.configurator-options-bottom .configurator-option-item:hover {
+    opacity: 0.85;
+}
+
+.configurator-options-bottom .configurator-option-item.active {
+    color: var(--configurator-accent-muted) !important; /* gold accent */
+    font-weight: 700 !important;
+    opacity: 1 !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+
 .step-number { display:none; }
 .step-total { display:none; }
 
-.rolex-step-title {
+.configurator-step-title {
     font-family: var(--font-heading);
     font-size: 24px;
     font-weight: 600;
-    color: #1a1a1a;
-    margin-bottom: 24px;
+    color: var(--color-black);
     line-height: 1.3;
     flex-shrink: 0;
 }
 
-/* ===== OPTIONS CLIQUABLES ===== */
-.rolex-option-list {
+/* ===== CLICKABLE OPTIONS ===== */
+.configurator-option-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -211,7 +589,7 @@
     margin-right: -10px;
 }
 
-.rolex-option-item {
+.configurator-option-item {
     padding: 16px 20px;
     background-color: white;
     border: 2px solid transparent;
@@ -220,37 +598,37 @@
     transition: all 0.3s ease;
     font-family: var(--font-body);
     font-size: 16px;
-    color: #333;
+    color: var(--color-black);
     text-align: left;
 }
 
-.rolex-option-item:hover {
-    border-color: #d4af37;
-    background-color: #fafafa;
+.configurator-option-item:hover {
+    border-color: var(--configurator-accent-lavender);
+    background-color: var(--configurator-cream-light);
 }
 
-.rolex-option-item.active {
-    border-color: #d4af37;
-    background-color: #fffef8;
+.configurator-option-item.active {
+    border-color: var(--configurator-accent-lavender);
+    background-color: var(--configurator-cream-2);
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--color-black);
 }
 
-.rolex-option-item-title {
+.configurator-option-item-title {
     display: block;
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 4px;
 }
 
-.rolex-option-item-subtitle {
+.configurator-option-item-subtitle {
     display: block;
     font-size: 13px;
-    color: #999;
+    color: var(--configurator-muted-2);
 }
 
-/* ===== MINIATURES CIRCULAIRES À DROITE ===== */
-.rolex-thumbnails-right {
+/* ===== CIRCULAR THUMBNAILS ON THE RIGHT ===== */
+.configurator-thumbnails-right {
     position: absolute;
     top: 50%;
     right: 60px;
@@ -258,24 +636,24 @@
     z-index: 5;
 }
 
-.rolex-thumbnail-title {
+.configurator-thumbnail-title {
     font-family: var(--font-body);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #666;
+    color: var(--configurator-muted);
     margin-bottom: 20px;
     text-align: center;
 }
 
-.rolex-thumbnail-list {
+.configurator-thumbnail-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
 }
 
-.rolex-thumbnail {
+.configurator-thumbnail {
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -287,24 +665,24 @@
     box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
 }
 
-.rolex-thumbnail:hover {
-    border-color: #d4af37;
+.configurator-thumbnail:hover {
+    border-color: var(--configurator-accent-lavender);
     transform: scale(1.05);
 }
 
-.rolex-thumbnail.active {
-    border-color: #d4af37;
-    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+.configurator-thumbnail.active {
+    border-color: var(--configurator-accent-lavender);
+    box-shadow: 0 4px 16px rgba(var(--color-lavender-rgb), 0.3);
 }
 
-.rolex-thumbnail img {
+.configurator-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* ===== BARRE DE PROGRESSION ===== */
-.rolex-progress-bar {
+/* ===== PROGRESS BAR ===== */
+.configurator-progress-bar {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -314,14 +692,14 @@
     z-index: 50;
 }
 
-.rolex-progress-fill {
+.configurator-progress-fill {
     height: 100%;
-    background-color: #d4af37;
+    background-color: var(--color-lavender);
     transition: width 0.5s ease;
 }
 
-/* ===== MODAL RÉCAPITULATIF ===== */
-.rolex-modal {
+/* ===== SUMMARY/MODAL ===== */
+.configurator-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -334,13 +712,13 @@
     justify-content: center;
 }
 
-.rolex-modal.active {
+.configurator-modal.active {
     display: flex;
 }
 
-.rolex-modal-content {
+.configurator-modal-content {
     position: relative;
-    background-color: white;
+    background-color: var(--color-white);
     max-width: 900px;
     width: 90%;
     max-height: 90vh;
@@ -352,7 +730,7 @@
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
 }
 
-.rolex-modal-close {
+.configurator-modal-close {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -369,11 +747,11 @@
     transition: color 0.3s ease;
 }
 
-.rolex-modal-close:hover {
+.configurator-modal-close:hover {
     color: #1a1a1a;
 }
 
-.rolex-modal-title {
+.configurator-modal-title {
     font-family: var(--font-heading);
     font-size: 32px;
     font-weight: 600;
@@ -382,27 +760,27 @@
     text-align: center;
 }
 
-.rolex-summary {
+.configurator-summary {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     align-items: start;
 }
 
-.rolex-summary-image {
+.configurator-summary-image {
     width: 100%;
     height: auto;
     object-fit: contain;
     border-radius: 8px;
 }
 
-.rolex-summary-details {
+.configurator-summary-details {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.rolex-summary-item {
+.configurator-summary-item {
     display: flex;
     justify-content: space-between;
     padding: 12px 0;
@@ -410,11 +788,11 @@
 }
 
 /* Make summary items look interactive when they are linkable */
-.rolex-summary-item[role="button"] {
+.configurator-summary-item[role="button"] {
     cursor: pointer;
 }
 
-.rolex-summary-item[role="button"]:hover {
+.configurator-summary-item[role="button"]:hover {
     background-color: #faf7f2;
 }
 
@@ -431,15 +809,15 @@
     color: #1a1a1a;
 }
 
-.rolex-summary-divider {
+.configurator-summary-divider {
     height: 2px;
-    background-color: #d4af37;
+    background-color: var(--color-lavender);
     margin: 20px 0;
 }
 
-/* Styles pour l'étape récapitulatif (bulles) */
-.rolex-option-list.summary-step { display: flex; flex-direction: column; gap: 18px; align-items: center; }
-.rolex-summary-bubbles {
+/* Styles for summary step (bubbles) */
+.configurator-option-list.summary-step { display: flex; flex-direction: column; gap: 18px; align-items: center; }
+.configurator-summary-bubbles {
     display: flex;
     gap: 18px;
     flex-wrap: wrap;
@@ -447,7 +825,7 @@
     align-items: center;
     padding: 8px 12px;
 }
-.rolex-summary-bubble {
+.configurator-summary-bubble {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -458,8 +836,8 @@
     cursor: pointer;
     color: #efe8ff;
 }
-.rolex-summary-bubble:focus { outline: 2px solid rgba(212,175,55,0.6); outline-offset: 6px; }
-.rolex-summary-bubble-img {
+.configurator-summary-bubble:focus { outline: 2px solid rgba(212,175,55,0.6); outline-offset: 6px; }
+.configurator-summary-bubble-img {
     width: 96px;
     height: 96px;
     border-radius: 50%;
@@ -471,14 +849,14 @@
     border: 3px solid rgba(255,255,255,0.06);
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
-.rolex-summary-bubble-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.rolex-summary-bubble-label { font-size: 13px; text-align: center; color: #efe8ff; }
-.rolex-summary-bubble.empty .rolex-summary-bubble-img { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.4); font-weight: 700; }
+.configurator-summary-bubble-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.configurator-summary-bubble-label { font-size: 13px; text-align: center; color: #efe8ff; }
+.configurator-summary-bubble.empty .configurator-summary-bubble-img { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.4); font-weight: 700; }
 
-.rolex-summary-actions-inline { display:flex; gap:12px; margin-top: 14px; }
+.configurator-summary-actions-inline { display:flex; gap:12px; margin-top: 14px; }
 
 /* Make summary action buttons sticky so they remain visible while bubbles scroll */
-.rolex-summary-actions {
+.configurator-summary-actions {
     position: sticky;
     bottom: 0;
     display: flex;
@@ -491,19 +869,19 @@
     z-index: 2600;
 }
 
-.rolex-summary-actions .btn {
+.configurator-summary-actions .btn {
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
 /* Responsive tweaks */
 @media (max-width: 700px) {
-    .rolex-summary-bubble { width: 46%; }
-    .rolex-summary-bubble-img { width: 80px; height: 80px; }
-    .rolex-options-bottom { bottom: 120px; }
+    .configurator-summary-bubble { width: 46%; }
+    .configurator-summary-bubble-img { width: 80px; height: 80px; }
+    .configurator-options-bottom { bottom: 120px; }
 }
 
 /* ------------------ BOTTOM INFO BAR ------------------ */
-.rolex-bottom-bar {
+.configurator-bottom-bar {
     position: fixed;
     left: 0;
     right: 0;
@@ -514,22 +892,22 @@
     justify-content: space-between;
     padding: 0 20px;
     gap: 12px;
-    background: linear-gradient(180deg, rgba(10,8,12,0.0), rgba(6,4,8,0.6));
+    background: rgba(var(--color-white), 0.55);
     color: #fff;
     z-index: 2000;
     border-top: 1px solid rgba(255,255,255,0.03);
 }
 
-.rolex-bottom-left { display: flex; flex-direction: column; }
-.rolex-bottom-model { font-weight: 600; color: var(--color-primary); }
-.rolex-bottom-price { font-weight: 700; color: var(--color-accent); }
+.configurator-bottom-left { display: flex; flex-direction: column; }
+.configurator-bottom-model { font-weight: 600; color: var(--color-primary); }
+.configurator-bottom-price { font-weight: 700; color: var(--color-primary); }
 
-.btn-rolex-plus {
+.btn-configurator-plus {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: linear-gradient(180deg, #d4af37, #b8872a);
-    color: #0a0710;
+    background: rgba(var(--color-primary-rgb), 0.92);
+    color: var(--color-lavender);
     border: none;
     font-size: 20px;
     display: inline-flex;
@@ -540,7 +918,7 @@
 }
 
 /* ------------------ VIEW DOTS (côté droit) ------------------ */
-.rolex-thumbnails-right {
+.configurator-thumbnails-right {
     position: absolute;
     top: 50%;
     right: 48px;
@@ -552,7 +930,7 @@
     align-items: center;
 }
 
-.rolex-view-dot {
+.configurator-view-dot {
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -562,9 +940,9 @@
     transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
     display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
-.rolex-view-dot img { width:100%; height:100%; object-fit:cover; display:block; }
-.rolex-view-dot:hover { transform: scale(1.06); box-shadow:0 8px 20px rgba(0,0,0,0.28); }
-.rolex-view-dot.active { background: var(--color-accent); transform: scale(1.2); box-shadow: 0 10px 30px rgba(212,175,55,0.2); }
+.configurator-view-dot img { width:100%; height:100%; object-fit:cover; display:block; }
+.configurator-view-dot:hover { transform: scale(1.06); box-shadow:0 8px 20px rgba(0,0,0,0.28); }
+.configurator-view-dot.active { transform: scale(1.2); border: 2px solid rgba(255, 255, 255, 0.253); box-shadow: 0 10px 30px rgba(197, 197, 197, 0.2); }
 
 /* ------------------ CHOICES HELP PANEL ------------------ */
 .choices-help-panel {
@@ -591,7 +969,7 @@
 .choices-help-options { display:flex; gap:8px; flex-wrap:wrap; }
 .choices-help-option { width:76px; height:76px; border-radius:8px; overflow:hidden; background:rgba(255,255,255,0.02); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid transparent; }
 .choices-help-option img { width:100%; height:100%; object-fit:cover; display:block; }
-.choices-help-option.selected { border-color: rgba(212,175,55,0.95); box-shadow: 0 8px 22px rgba(212,175,55,0.12); }
+.choices-help-option.selected { border-color: var(--color-primary); box-shadow: 0 8px 22px rgba(212,175,55,0.12); }
 .choices-help-note { font-size:12px; color:rgba(255,255,255,0.65); margin-top:8px; }
 
 @media (max-width: 800px) {
@@ -599,13 +977,13 @@
 }
 
 /* Override pour btn-secondary uniquement dans le configurateur (ton clair) */
-.rolex-configurator .btn.btn-secondary {
+.configurator-root .btn.btn-secondary {
     background: linear-gradient(180deg, var(--color-lavender), rgba(224,208,250,0.9));
     color: var(--color-primary);
     border: 1px solid rgba(25,0,66,0.06);
     box-shadow: 0 6px 18px rgba(25,0,66,0.06);
 }
-.rolex-configurator .btn.btn-secondary:hover {
+.configurator-root .btn.btn-secondary:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 24px rgba(25,0,66,0.09);
 }
@@ -642,14 +1020,14 @@
 .choices-detail-meta { display:flex; flex-direction:column; gap:6px; }
 .choices-detail-meta .title { font-weight:600; color:#111; }
 .choices-detail-meta .subtitle { font-size:13px; color:#666; }
-.choices-detail-meta .price { font-weight:700; color:#b8872a; }
+.choices-detail-meta .price { font-weight:700; color: var(--color-primary); }
 
 @media (max-width: 720px) {
     .choices-detail-panel { height: 58vh; }
     .choices-detail-thumb { width:64px; height:64px; }
 }
 
-.rolex-summary-total {
+    .configurator-summary-total {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -665,10 +1043,10 @@
 .summary-total-price {
     font-size: 28px;
     font-weight: 700;
-    color: #d4af37;
+    color: var(--color-primary);
 }
 
-.rolex-summary-actions {
+    .configurator-summary-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -678,47 +1056,47 @@
 
 /* Tablettes et écrans moyens */
 @media (max-width: 1200px) {
-    .rolex-options-left {
+    .configurator-options-left {
         left: 30px;
         width: 280px;
         padding: 24px;
     }
     
-    .rolex-thumbnails-right {
+    .configurator-thumbnails-right {
         right: 30px;
     }
     
-    .rolex-main-image {
+    .configurator-main-image {
         max-width: 55%;
     }
     
-    .rolex-step-title {
+    .configurator-step-title {
         font-size: 20px;
     }
 }
 
 /* Tablettes portrait */
 @media (max-width: 992px) {
-    .rolex-options-left {
+    .configurator-options-left {
         left: 20px;
         width: 260px;
         padding: 20px;
         top: 100px;
     }
     
-    .rolex-thumbnails-right {
+    .configurator-thumbnails-right {
         right: 20px;
     }
 
     /* Ensure option lists reserve space for fixed next/prev buttons */
-    .rolex-options-left,
-    .rolex-option-list {
-        padding-bottom: calc(var(--rolex-next-offset) + 28px);
+    .configurator-options-left,
+    .configurator-option-list {
+        padding-bottom: calc(var(--configurator-next-offset) + 28px);
         box-sizing: border-box;
     }
 
     /* Tablet: make summary bubbles horizontal-scrollable like option-list */
-    .rolex-summary-bubbles {
+    .configurator-summary-bubbles {
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -726,10 +1104,10 @@
         padding: 8px 12px;
     }
 
-    .rolex-summary-bubble { flex: 0 0 auto; min-width: 110px; }
+    .configurator-summary-bubble { flex: 0 0 auto; min-width: 110px; }
 
     /* Keep bottom bar white on tablets and smaller devices */
-    .rolex-bottom-bar {
+    .configurator-bottom-bar {
         background: #ffffff;
         color: #111111;
         border-top: 1px solid rgba(0,0,0,0.06);
@@ -738,13 +1116,13 @@
     }
 
     /* Ensure the next button sits above the bottom bar on tablets */
-    .rolex-next-button {
+    .configurator-next-button {
         bottom: calc(64px + 12px);
         z-index: 2100;
     }
 
     /* Place progress bar directly above the bottom bar on tablets */
-    .rolex-progress-bar {
+    .configurator-progress-bar {
         position: fixed;
         left: 0;
         right: 0;
@@ -754,19 +1132,20 @@
         background-color: rgba(0,0,0,0.06);
     }
     
-    .rolex-thumbnail {
+    .configurator-thumbnail {
         width: 56px;
         height: 56px;
     }
     
-    .rolex-main-image {
+    .configurator-main-image {
         max-width: 50%;
     }
 }
 
 /* Mobile paysage et petites tablettes */
 @media (max-width: 768px) {
-    .rolex-configurator {
+    .configurator-options { padding: var(--space-lg); }
+    .configurator-root {
         height: auto;
         min-height: 100vh;
         display: flex;
@@ -775,7 +1154,7 @@
     }
     
     /* Image en haut */
-    .rolex-image-container {
+    .configurator-image-container {
         position: relative;
         height: 50vh;
         min-height: 300px;
@@ -783,13 +1162,13 @@
         order: 1;
     }
     
-    .rolex-main-image {
+    .configurator-main-image {
         max-width: 90%;
         max-height: 90%;
     }
     
     /* Options en dessous de l'image */
-    .rolex-options-left {
+    .configurator-options-left {
         position: relative;
         top: auto;
         left: auto;
@@ -802,7 +1181,7 @@
         overflow: visible;
     }
     
-    .rolex-step-indicator {
+    .configurator-step-indicator {
         margin-bottom: 12px;
     }
     
@@ -810,27 +1189,27 @@
         font-size: 28px;
     }
     
-    .rolex-step-title {
+    .configurator-step-title {
         font-size: 22px;
         margin-bottom: 20px;
     }
     
-    .rolex-option-list {
+    .configurator-option-list {
         max-height: none;
         overflow: visible;
         padding-right: 0;
         margin-right: 0;
         /* reserve space under options so fixed bottom buttons don't overlap */
-        padding-bottom: calc(var(--rolex-next-offset) + 28px);
+        padding-bottom: calc(var(--configurator-next-offset) + 28px);
     }
     
-    .rolex-option-item {
+    .configurator-option-item {
         padding: 14px 18px;
         font-size: 15px;
     }
     
     /* Miniatures: keep them on the right on tablets/small screens; only phones pin left */
-    .rolex-thumbnails-right {
+    .configurator-thumbnails-right {
         position: absolute;
         top: 50%;
         right: 24px;
@@ -847,25 +1226,25 @@
         order: 3;
     }
     
-    .rolex-thumbnail-title {
+    .configurator-thumbnail-title {
         margin-bottom: 16px;
         font-size: 11px;
     }
     
-    .rolex-thumbnail-list {
+    .configurator-thumbnail-list {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
         gap: 12px;
     }
     
-    .rolex-thumbnail {
+    .configurator-thumbnail {
         width: 48px;
         height: 48px;
     }
     
     /* Bouton suivant fixe en bas */
-    .rolex-next-button {
+    .configurator-next-button {
         position: fixed;
         /* sit above the bottom bar (64px) to avoid overlap */
         bottom: calc(64px + 16px);
@@ -874,20 +1253,20 @@
         z-index: 2100;
     }
     
-    .btn-rolex-next {
+    .btn-configurator-next {
         padding: 14px 28px;
         font-size: 15px;
         box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
     }
 
     /* Make mobile button match desktop appearance and animations */
-    .rolex-next-button {
+    .configurator-next-button {
         animation: fadeIn 0.35s ease;
     }
 
-    .rolex-next-button .btn-rolex-next {
+    .configurator-next-button .btn-configurator-next {
         /* Use same colors as desktop */
-        background: linear-gradient(180deg, var(--color-champagne), #fff8ee);
+        background: linear-gradient(180deg, var(--color-lavender), #fff8ee);
         color: var(--color-primary);
         border: 1px solid rgba(0,0,0,0.06);
         border-radius: 50px;
@@ -899,7 +1278,7 @@
     }
 
     /* Touch feedback for mobile (active state) */
-    .rolex-next-button .btn-rolex-next:active {
+    .configurator-next-button .btn-configurator-next:active {
         transform: translateY(0);
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         opacity: 0.98;
@@ -907,7 +1286,7 @@
 
     /* If device supports hover, keep the hover transform as on desktop */
     @media (hover: hover) {
-        .rolex-next-button .btn-rolex-next:hover {
+        .configurator-next-button .btn-configurator-next:hover {
             background-color: #333;
             transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
@@ -917,46 +1296,46 @@
     /* Make option panels fully opaque on mobile so the fixed button
        cannot be seen through translucent backgrounds. Ensure panels
        remain interactive. */
-    .rolex-options-left {
+    .configurator-options-left {
         pointer-events: auto;
         background-color: #ffffff; /* remove translucency */
     }
 
-    .rolex-options-left .rolex-option-item,
-    .rolex-options-left .rolex-option-list {
+    .configurator-options-left .configurator-option-item,
+    .configurator-options-left .configurator-option-list {
         pointer-events: auto;
         position: relative;
         z-index: 1010; /* keep items above background but below button */
     }
 
-   .rolex-configurator {
-        padding-bottom: calc(var(--rolex-next-offset) + env(safe-area-inset-bottom));
+   .configurator-root {
+        padding-bottom: calc(var(--configurator-next-offset) + env(safe-area-inset-bottom));
     }
 
     /* Only options panel should be opaque; thumbnails stay transparent and pinned left */
-    .rolex-options-left {
-        padding-bottom: calc(var(--rolex-next-offset) + env(safe-area-inset-bottom));
+    .configurator-options-left {
+        padding-bottom: calc(var(--configurator-next-offset) + env(safe-area-inset-bottom));
         background-color: #ffffff; /* keep options area readable on mobile */
     }
     
     /* Barre de progression */
-    .rolex-progress-bar {
+    .configurator-progress-bar {
         position: fixed;
         bottom: 0;
     }
     
     /* Modal récapitulatif */
-    .rolex-summary {
+    .configurator-summary {
         grid-template-columns: 1fr;
         gap: 24px;
     }
     
-    .rolex-modal-content {
+    .configurator-modal-content {
         padding: 30px 20px;
         width: 95%;
     }
     
-    .rolex-modal-title {
+    .configurator-modal-title {
         font-size: 24px;
         margin-bottom: 20px;
     }
@@ -974,24 +1353,24 @@
         padding: var(--space-sm) 0;
     }
     
-    .rolex-configurator {
+    .configurator-root {
         height: calc(100vh - 60px);
     }
     
     /* Image plus petite sur petits écrans */
-    .rolex-image-container {
+    .configurator-image-container {
         height: 40vh;
         min-height: 250px;
         max-height: 300px;
     }
     
-    .rolex-main-image {
+    .configurator-main-image {
         max-width: 85%;
         max-height: 85%;
     }
     
     /* Options plus compactes */
-    .rolex-options-left {
+    .configurator-options-left {
         padding: 20px 16px 100px 16px;
     }
     
@@ -1003,38 +1382,38 @@
         font-size: 16px;
     }
     
-    .rolex-step-title {
+    .configurator-step-title {
         font-size: 20px;
         margin-bottom: 16px;
     }
     
-    .rolex-option-list {
+    .configurator-option-list {
         gap: 10px;
         /* on phones ensure scrollable option areas have bottom padding */
-        padding-bottom: calc(var(--rolex-next-offset) + 28px);
+        padding-bottom: calc(var(--configurator-next-offset) + 28px);
     }
     
-    .rolex-option-item {
+    .configurator-option-item {
         padding: 12px 16px;
         font-size: 14px;
     }
 
     /* Make option items more compact on very small screens */
-    .rolex-option-item {
+    .configurator-option-item {
         padding: 8px 10px;
         font-size: 13px;
     }
     
-    .rolex-option-item-title {
+    .configurator-option-item-title {
         font-size: 15px;
     }
     
-    .rolex-option-item-subtitle {
+    .configurator-option-item-subtitle {
         font-size: 12px;
     }
     
     /* Miniatures: keep thumbnails on the right for phones as on desktop */
-    .rolex-thumbnails-right {
+    .configurator-thumbnails-right {
         position: absolute;
         top: 50%;
         right: 12px;
@@ -1046,24 +1425,24 @@
         z-index: 1400;
     }
     
-    .rolex-thumbnail {
+    .configurator-thumbnail {
         width: 44px;
         height: 44px;
         border-width: 2px;
     }
     
-    .rolex-thumbnail-list {
+    .configurator-thumbnail-list {
         gap: 10px;
     }
     
     /* Bouton suivant fixe : placer au-dessus de la barre inférieure (64px) */
-    .rolex-next-button {
+    .configurator-next-button {
         bottom: calc(64px + 12px);
         z-index: 2100;
     }
 
     /* Progress bar sits above bottom bar on phones */
-    .rolex-progress-bar {
+    .configurator-progress-bar {
         position: fixed;
         left: 0;
         right: 0;
@@ -1074,7 +1453,7 @@
     }
 
     /* Bottom bar: on phones, show as solid white and dark text */
-    .rolex-bottom-bar {
+    .configurator-bottom-bar {
         background: #ffffff;
         color: #111111;
         border-top: 1px solid rgba(0,0,0,0.06);
@@ -1083,7 +1462,7 @@
     }
 
     /* Résumé : bulles alignées horizontalement et défilables */
-    .rolex-summary-bubbles {
+    .configurator-summary-bubbles {
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -1091,43 +1470,43 @@
         padding: 8px 12px;
     }
 
-    .rolex-summary-bubble {
+    .configurator-summary-bubble {
         flex: 0 0 auto;
         min-width: 110px;
         width: auto;
     }
     
-    .btn-rolex-next {
+    .btn-configurator-next {
         padding: 12px 24px;
         font-size: 14px;
         gap: 8px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     
-    .btn-rolex-next svg {
+    .btn-configurator-next svg {
         width: 18px;
         height: 18px;
     }
     
     /* Modal */
-    .rolex-modal-content {
+    .configurator-modal-content {
         padding: 24px 16px;
         width: 96%;
         border-radius: 8px;
     }
     
-    .rolex-modal-title {
+    .configurator-modal-title {
         font-size: 20px;
         margin-bottom: 16px;
     }
     
-    .rolex-modal-close {
+    .configurator-modal-close {
         font-size: 28px;
         top: 12px;
         right: 12px;
     }
     
-    .rolex-summary-item {
+    .configurator-summary-item {
         padding: 10px 0;
         flex-direction: column;
         gap: 4px;
@@ -1142,7 +1521,7 @@
         font-size: 15px;
     }
     
-    .rolex-summary-total {
+    .configurator-summary-total {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
@@ -1157,11 +1536,11 @@
         font-size: 22px;
     }
     
-    .rolex-summary-actions {
+    .configurator-summary-actions {
         gap: 10px;
     }
     
-    .rolex-summary-actions .btn {
+    .configurator-summary-actions .btn {
         font-size: 14px;
         padding: 12px 20px;
     }
@@ -1195,36 +1574,36 @@
 
 /* Très petits écrans */
 @media (max-width: 360px) {
-    .rolex-image-container {
+    .configurator-image-container {
         height: 35vh;
         min-height: 220px;
     }
     
-    .rolex-options-left {
+    .configurator-options-left {
         padding: 16px 12px 100px 12px;
     }
     
-    .rolex-step-title {
+    .configurator-step-title {
         font-size: 18px;
     }
     
-    .rolex-option-item {
+    .configurator-option-item {
         padding: 10px 14px;
     }
     
-    .rolex-thumbnails-right {
+    .configurator-thumbnails-right {
         right: 12px;
         left: auto;
         padding: 12px;
         background: transparent;
     }
     
-    .rolex-thumbnail {
+    .configurator-thumbnail {
         width: 36px;
         height: 36px;
     }
     
-    .btn-rolex-next {
+    .btn-configurator-next {
         padding: 10px 20px;
         font-size: 13px;
     }
@@ -1266,35 +1645,28 @@
     }
 }
 
-.rolex-option-item,
-.rolex-thumbnail {
+.configurator-option-item,
+.configurator-thumbnail {
     animation: fadeIn 0.3s ease;
 }
 
 /* ===== SCROLLBAR PERSONNALISÉE ===== */
-.rolex-option-list::-webkit-scrollbar {
+.configurator-option-list::-webkit-scrollbar {
     width: 6px;
 }
 
-.rolex-option-list::-webkit-scrollbar-track {
+.configurator-option-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 3px;
 }
 
-.rolex-option-list::-webkit-scrollbar-thumb {
-    background: #d4af37;
+.configurator-option-list::-webkit-scrollbar-thumb {
+    background: var(--color-lavender);
     border-radius: 3px;
 }
 
-.rolex-option-list::-webkit-scrollbar-thumb:hover {
-    background: #b8941f;
-}
-
-
-@media (max-width: 768px) {
-    .configurator-options {
-        padding: var(--space-lg);
-    }
+.configurator-option-list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-lavender);
 }
 
 .configurator-header {
@@ -1339,7 +1711,7 @@
 
 .option-label-value {
     font-size: var(--text-small);
-    color: var(--color-silver);
+    color: var(--color-lavender);
     background-color: var(--color-primary);
     padding: var(--space-xs) var(--space-sm);
 }
@@ -1355,7 +1727,7 @@
     flex: 1;
     min-width: 100px;
     padding: var(--space-md);
-    border: 2px solid var(--color-silver);
+    border: 2px solid var(--color-lavender);
     background-color: var(--color-white);
     text-align: center;
     cursor: pointer;
@@ -1443,7 +1815,7 @@
 .size-btn {
     width: 50px;
     height: 50px;
-    border: 2px solid var(--color-silver);
+    border: 2px solid var(--color-lavender);
     background-color: var(--color-white);
     font-family: var(--font-body);
     font-weight: var(--font-body-weight-medium);
@@ -1491,7 +1863,7 @@
 
 .setting-card {
     padding: var(--space-md);
-    border: 2px solid var(--color-silver);
+    border: 2px solid var(--color-lavender);
     background-color: var(--color-white);
     cursor: pointer;
     transition: all var(--transition-normal);
@@ -1511,7 +1883,7 @@
     width: 80px;
     height: 80px;
     margin: 0 auto var(--space-sm);
-    background: var(--color-champagne);
+    background: var(--color-lavender);
     border-radius: var(--border-radius-full);
     display: flex;
     align-items: center;
@@ -1552,7 +1924,7 @@
 
 .diamond-card {
     padding: var(--space-md);
-    border: 2px solid var(--color-silver);
+    border: 2px solid var(--color-lavender);
     background-color: var(--color-white);
     cursor: pointer;
     transition: all var(--transition-normal);
@@ -1595,7 +1967,7 @@
 
 /* ===== SUMMARY ===== */
 .configurator-summary {
-    background-color: var(--color-champagne);
+    background-color: var(--color-lavender);
     padding: var(--space-lg);
     margin-top: var(--space-xl);
     border-radius: var(--border-radius-md);
@@ -1684,7 +2056,7 @@
 .step-number {
     width: 40px;
     height: 40px;
-    border: 2px solid var(--color-silver);
+    border: 2px solid var(--color-lavender);
     border-radius: var(--border-radius-full);
     display: flex;
     align-items: center;
@@ -1717,7 +2089,7 @@
 .step-connector {
     width: 60px;
     height: 2px;
-    background-color: var(--color-silver);
+    background-color: var(--color-lavender);
     margin-top: 20px;
 }
 
@@ -1726,7 +2098,7 @@
 }
 
 /* Fix mobile: ensure the fixed "Suivant" button is on top and receives touch/click events */
-.rolex-next-button {
+.configurator-next-button {
     z-index: 2000 !important;
     pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
@@ -1734,6 +2106,65 @@
 }
 
 /* In case the progress bar or other fixed elements overlap, keep them behind the button */
-.rolex-progress-bar {
+.configurator-progress-bar {
     z-index: 100 !important;
+}
+
+/* Force persistent layout on small screens: options left, thumbnails right, buttons bottom */
+@media (max-width: 768px) {
+    .configurator-options-left {
+        display: block !important;
+        position: fixed !important;
+        left: 12px !important;
+        top: 80px !important;
+        width: 260px !important;
+        height: calc(100vh - var(--configurator-next-offset) - 120px) !important;
+        max-height: calc(100vh - var(--configurator-next-offset) - 120px) !important;
+        overflow: auto !important;
+        padding: 12px !important;
+        background: rgba(255,255,255,0.02) !important;
+        backdrop-filter: blur(6px) !important;
+        border-radius: 12px !important;
+        z-index: 2200 !important;
+    }
+
+    /* Disable bottom options overlay so left panel remains authoritative */
+    .configurator-options-bottom { display: none !important; }
+
+    /* Keep main image centered between the left options and right thumbnails */
+    .configurator-image-container {
+        position: absolute !important;
+        left: calc(12px + 260px + 12px) !important; /* options left + gap */
+        right: 120px !important; /* reserve space for thumbnails */
+        top: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        padding: 0 12px !important;
+    }
+
+    .configurator-main-image {
+        max-width: 100% !important;
+        max-height: 80% !important;
+        width: auto !important;
+    }
+
+    .configurator-thumbnails-right {
+        position: absolute !important;
+        right: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 2300 !important;
+    }
+
+    /* Ensure next button stays fixed at bottom and above other layers */
+    .configurator-next-button {
+        position: fixed !important;
+        bottom: calc(64px + 12px) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 2400 !important;
+    }
 }
