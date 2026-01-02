@@ -193,39 +193,114 @@ function initRolexConfigurator() {
     
     // Bouton suivant
     document.getElementById('nextStepBtn').addEventListener('click', nextStep);
+
+    // Bouton précédent (si présent)
+    const prevBtn = document.getElementById('prevStepBtn');
+    if (prevBtn) prevBtn.addEventListener('click', prevStep);
     
     // Boutons du modal
     document.getElementById('closeModal').addEventListener('click', closeModal);
     document.getElementById('modifyBtn').addEventListener('click', closeModal);
     document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
     document.getElementById('quoteBtn').addEventListener('click', handleQuote);
+
+    // Pastilles de vue (côté droit)
+    const viewDots = document.getElementById('viewDots');
+    if (viewDots) {
+        // Injecter une mini-image dans chaque pastille et ajouter hover preview
+        viewDots.querySelectorAll('.rolex-view-dot').forEach(btn => {
+            // ajouter img mini
+            const img = document.createElement('img');
+            const mainSrc = document.getElementById('mainProductImage')?.src || '';
+            img.src = mainSrc;
+            img.alt = btn.getAttribute('title') || 'Aperçu';
+            btn.innerHTML = '';
+            btn.appendChild(img);
+
+            // click -> changer la classe view
+            btn.addEventListener('click', () => {
+                viewDots.querySelectorAll('.rolex-view-dot').forEach(b => b.classList.toggle('active', b === btn));
+                const v = btn.dataset.view || '0';
+                const container = document.querySelector('.rolex-image-container');
+                if (container) {
+                    container.classList.remove('view-0','view-1','view-2');
+                    container.classList.add('view-' + v);
+                }
+            });
+
+            // hover pour prévisualiser la vue sans changer définitivement
+            btn.addEventListener('mouseenter', () => {
+                const container = document.querySelector('.rolex-image-container');
+                if (container) {
+                    const v = btn.dataset.view || '0';
+                    container.classList.add('preview-' + v);
+                }
+            });
+            btn.addEventListener('mouseleave', () => {
+                const container = document.querySelector('.rolex-image-container');
+                if (container) {
+                    container.classList.remove('preview-0','preview-1','preview-2');
+                }
+            });
+        });
+    }
+
+    // Bouton + de la barre d'infos -> ouvrir panneau de détails (blanc) depuis le bas
+    const plusBtn = document.getElementById('plusDetailsBtn');
+    if (plusBtn) plusBtn.addEventListener('click', toggleDetailPanel);
+
+    // Fermeture panneau d'aide (côté droit)
+    const closeHelp = document.getElementById('closeHelpPanel');
+    if (closeHelp) closeHelp.addEventListener('click', () => toggleHelpPanel(false));
+
+    // Fermeture panneau détails bas
+    const closeDetail = document.getElementById('closeDetailPanel');
+    if (closeDetail) closeDetail.addEventListener('click', () => toggleDetailPanel(false));
+
+    // mettre à jour la barre d'infos initiale
+    updateBottomBar();
 }
 
 /**
  * Afficher l'étape courante
  */
 function renderStep() {
+    // Si nous sommes sur l'étape de récapitulatif final
+    if (configState.currentStep === steps.length) {
+        renderSummaryStep();
+        updateProgress();
+        if (typeof updateBottomBar === 'function') updateBottomBar();
+        return;
+    }
+
     const step = steps[configState.currentStep];
-    
+
     // Vérifier la condition de l'étape
     if (step.condition && !step.condition()) {
         nextStep();
         return;
     }
-    
-    // Mettre à jour le titre et l'indicateur
-    document.getElementById('stepNumber').textContent = configState.currentStep + 1;
-    document.getElementById('stepTitle').textContent = step.title;
-    
+
+    // Mettre à jour le titre (le compteur d'étape a été supprimé)
+    const stepNumberEl = document.getElementById('stepNumber');
+    if (stepNumberEl) stepNumberEl.textContent = configState.currentStep + 1;
+    const stepTitleEl = document.getElementById('stepTitle');
+    if (stepTitleEl) stepTitleEl.textContent = step.title;
+
     // Afficher les options
+    // s'assurer que l'optionList n'a plus la classe 'summary-step'
+    const optionListEl = document.getElementById('optionList');
+    if (optionListEl) optionListEl.classList.remove('summary-step');
     renderOptions(step);
 
-    
     // Mettre à jour la barre de progression
     updateProgress();
-    
+
     // Mettre à jour l'image principale
     updateMainImage();
+
+    // Mettre à jour la barre d'infos (prix / nom)
+    if (typeof updateBottomBar === 'function') updateBottomBar();
 }
 
 /**
@@ -281,14 +356,25 @@ function selectOption(key, value, image) {
     
     // Sauvegarder
     saveToLocalStorage();
+
+    // Mettre à jour la barre d'infos
+    if (typeof updateBottomBar === 'function') updateBottomBar();
+
+    // Mettre à jour aussi les miniatures des pastilles de vue si présentes
+    document.querySelectorAll('.rolex-view-dot img').forEach(i => {
+        i.src = image || i.src;
+    });
 }
 
 /**
  * Passer à l'étape suivante
  */
 function nextStep() {
+    // Si on est déjà sur l'étape récapitulatif, ne rien faire
+    if (configState.currentStep === steps.length) return;
+
     const currentStepData = steps[configState.currentStep];
-    
+
     // Vérifier qu'une option est sélectionnée
     if (!configState.selections[currentStepData.key]) {
         alert('Veuillez sélectionner une option avant de continuer.');
@@ -296,22 +382,42 @@ function nextStep() {
     }
     
     configState.currentStep++;
-    
-    // Si on a fini toutes les étapes
-    if (configState.currentStep >= steps.length) {
-        showSummary();
+
+    // Si on a fini toutes les étapes réelles -> aller à l'étape récap (index = steps.length)
+    if (configState.currentStep > steps.length - 1) {
+        // maintenant currentStep === steps.length (récapitulatif)
+        renderStep();
         return;
     }
-    
+
     renderStep();
+}
+
+/**
+ * Revenir à l'étape précédente
+ */
+function prevStep() {
+    // Si on est sur l'étape de récapitulatif (nouvelle étape inline), revenir à la dernière étape réelle
+    if (configState.currentStep === steps.length) {
+        configState.currentStep = Math.max(0, steps.length - 1);
+        renderStep();
+        return;
+    }
+
+    if (configState.currentStep > 0) {
+        configState.currentStep--;
+        renderStep();
+    }
 }
 
 /**
  * Mettre à jour la barre de progression
  */
 function updateProgress() {
-    const progress = ((configState.currentStep + 1) / steps.length) * 100;
-    document.getElementById('progressFill').style.width = `${progress}%`;
+    const total = steps.length + 1; // inclure l'étape récap
+    const progress = Math.min(100, ((configState.currentStep + 1) / total) * 100);
+    const el = document.getElementById('progressFill');
+    if (el) el.style.width = `${progress}%`;
 }
 
 /**
@@ -324,7 +430,13 @@ function updateMainImage() {
     if (selectedValue) {
         const option = step.options.find(opt => opt.value === selectedValue);
         if (option) {
-            document.getElementById('mainProductImage').src = option.image;
+            const mainImg = document.getElementById('mainProductImage');
+            if (mainImg) mainImg.src = option.image;
+
+            // Mettre à jour les miniatures dans les view dots si présentes
+            document.querySelectorAll('.rolex-view-dot img').forEach(i => {
+                i.src = option.thumbnail || option.image || i.src;
+            });
         }
     }
 }
@@ -333,35 +445,9 @@ function updateMainImage() {
  * Afficher le récapitulatif
  */
 function showSummary() {
-    const modal = document.getElementById('summaryModal');
-    modal.classList.add('active');
-    
-    // Remplir les informations
-    document.getElementById('summaryGoldType').textContent = 
-        steps[0].options.find(o => o.value === configState.selections.goldType)?.title || '-';
-    
-    document.getElementById('summaryGoldColor').textContent = 
-        steps[1].options.find(o => o.value === configState.selections.goldColor)?.title || '-';
-    
-    document.getElementById('summaryRingSize').textContent = 
-        `Taille ${configState.selections.ringSize || '-'}`;
-    
-    document.getElementById('summarySetting').textContent = 
-        steps[3].options.find(o => o.value === configState.selections.setting)?.title || '-';
-    
-    if (configState.selections.setting === 'solitaire' && configState.selections.diamond) {
-        document.getElementById('summaryDiamond').textContent = 
-            `${configState.selections.diamond} carat`;
-    } else {
-        document.getElementById('summaryDiamond').textContent = 'Aucun';
-    }
-    
-    // Calculer et afficher le prix
-    const totalPrice = calculateTotalPrice();
-    document.getElementById('summaryPrice').textContent = `${totalPrice.toLocaleString('fr-FR')} €`;
-    
-    // Image finale
-    document.getElementById('summaryImage').src = document.getElementById('mainProductImage').src;
+    // Au lieu d'un modal, navigue vers une étape de récapitulatif inline
+    configState.currentStep = steps.length;
+    renderStep();
 }
 
 /**
@@ -370,6 +456,23 @@ function showSummary() {
 function closeModal() {
     document.getElementById('summaryModal').classList.remove('active');
     configState.currentStep = 0;
+    renderStep();
+}
+
+/**
+ * Masquer le modal sans réinitialiser l'étape
+ */
+function hideSummaryModal() {
+    const modal = document.getElementById('summaryModal');
+    if (modal) modal.classList.remove('active');
+}
+
+/**
+ * Aller à une étape précise depuis le récapitulatif
+ */
+function goToStep(stepIndex) {
+    hideSummaryModal();
+    configState.currentStep = Math.max(0, Math.min(stepIndex, steps.length - 1));
     renderStep();
 }
 
@@ -396,6 +499,345 @@ function calculateTotalPrice() {
     }
     
     return total;
+}
+
+/**
+ * Met à jour la barre d'infos fixe en bas (nom du modèle & prix)
+ */
+function updateBottomBar() {
+    const nameEl = document.getElementById('bottomModelName');
+    const priceEl = document.getElementById('bottomModelPrice');
+    const total = calculateTotalPrice();
+    if (priceEl) priceEl.textContent = `${total.toLocaleString('fr-FR')} €`;
+
+    // Déterminer un nom de modèle simple à partir des sélections
+    const modelParts = [];
+    if (configState.selections.goldType) modelParts.push(configState.selections.goldType.toUpperCase());
+    if (configState.selections.goldColor) modelParts.push(configState.selections.goldColor);
+    if (modelParts.length === 0) {
+        if (nameEl) nameEl.textContent = 'Modèle : Inconnu';
+    } else {
+        if (nameEl) nameEl.textContent = 'Modèle : ' + modelParts.join(' - ');
+    }
+}
+
+/**
+ * Rendu de l'étape de récapitulatif finale (bulles avec images)
+ */
+function renderSummaryStep() {
+    // Masquer l'indicateur de pas (ex: "6/5") sur la page récapitulatif
+    const stepIndicator = document.querySelector('.rolex-step-indicator');
+    if (stepIndicator) stepIndicator.style.display = 'none';
+    document.getElementById('stepTitle').textContent = 'Récapitulatif de votre création';
+
+    const optionList = document.getElementById('optionList');
+    optionList.innerHTML = '';
+    optionList.classList.add('summary-step');
+
+    // Container de bulles
+    const bubbles = document.createElement('div');
+    bubbles.className = 'rolex-summary-bubbles';
+
+    // Pour chaque étape, afficher une bulle si une sélection existe
+    steps.forEach((step, index) => {
+        // Vérifier condition
+        if (step.condition && !step.condition()) return;
+
+        const selectedVal = configState.selections[step.key];
+        const bubble = document.createElement('button');
+        bubble.className = 'rolex-summary-bubble';
+        bubble.type = 'button';
+        bubble.dataset.step = index;
+
+        const imgWrap = document.createElement('div');
+        imgWrap.className = 'rolex-summary-bubble-img';
+
+        const label = document.createElement('div');
+        label.className = 'rolex-summary-bubble-label';
+
+        if (selectedVal) {
+            const opt = step.options.find(o => o.value === selectedVal);
+            const src = (opt && (opt.thumbnail || opt.image)) || '../assets/images/configurator/default.jpg';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = opt ? opt.title : 'Choix';
+            imgWrap.appendChild(img);
+            label.textContent = opt ? opt.title : selectedVal;
+
+        } else {
+            // Indiquer non-sélection
+            const img = document.createElement('div');
+            img.textContent = '?';
+            imgWrap.appendChild(img);
+            label.textContent = step.title;
+            bubble.classList.add('empty');
+        }
+
+        bubble.appendChild(imgWrap);
+        bubble.appendChild(label);
+
+        // clic pour revenir à l'étape correspondante
+        bubble.addEventListener('click', () => {
+            goToStep(index);
+        });
+
+        bubbles.appendChild(bubble);
+    });
+
+    optionList.appendChild(bubbles);
+
+    // Footer actions: bouton commander + revenir modifier
+    const actions = document.createElement('div');
+    actions.className = 'rolex-summary-actions-inline';
+
+    const checkout = document.createElement('button');
+    checkout.className = 'btn btn-gold btn-lg';
+    checkout.id = 'checkoutInlineBtn';
+    checkout.textContent = 'Commander';
+    checkout.addEventListener('click', handleCheckout);
+
+    const modify = document.createElement('button');
+    modify.className = 'btn btn-secondary';
+    modify.textContent = 'Demander un devis';
+    modify.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleQuote();
+    });
+
+    actions.appendChild(checkout);
+    actions.appendChild(modify);
+
+    optionList.appendChild(actions);
+}
+
+/**
+ * Ouvrir/fermer le panneau de détails bas (white panel)
+ */
+function toggleDetailPanel(forceState) {
+    const panel = document.getElementById('choicesDetailPanel');
+    if (!panel) return;
+    const isOpen = panel.getAttribute('aria-hidden') === 'false';
+    const shouldOpen = typeof forceState === 'boolean' ? forceState : !isOpen;
+    panel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+    if (shouldOpen) renderDetailPanel();
+}
+
+/**
+ * Rendu du panneau de détails pour l'étape courante : liste des options proposées
+ */
+function renderDetailPanel() {
+    const container = document.getElementById('choicesDetailContent');
+    if (!container) return;
+    container.innerHTML = '';
+    // Si on est sur l'étape récapitulatif (summary), afficher le détail de toutes les options choisies
+    if (configState.currentStep === steps.length) {
+        const header = document.createElement('div');
+        header.className = 'choices-help-note';
+        header.textContent = 'Détails des options sélectionnées :';
+        container.appendChild(header);
+
+        steps.forEach((step) => {
+            if (step.condition && !step.condition()) return;
+            const selectedVal = configState.selections[step.key];
+            const row = document.createElement('div');
+            row.className = 'choices-detail-step';
+
+            const thumb = document.createElement('div');
+            thumb.className = 'choices-detail-thumb';
+            const img = document.createElement('img');
+            const opt = step.options.find(o => o.value === selectedVal);
+            img.src = (opt && (opt.thumbnail || opt.image)) || '../assets/images/configurator/default.jpg';
+            img.alt = opt ? opt.title : step.title;
+            thumb.appendChild(img);
+
+            const meta = document.createElement('div');
+            meta.className = 'choices-detail-meta';
+            const t = document.createElement('div'); t.className = 'title'; t.textContent = step.title || '';
+            const s = document.createElement('div'); s.className = 'subtitle'; s.textContent = opt ? (opt.subtitle || '') : 'Aucun choix';
+            const p = document.createElement('div'); p.className = 'price';
+
+            let priceText = '';
+            if (selectedVal) {
+                if (step.key === 'diamond' && configState.prices.diamonds[selectedVal]) priceText = `${configState.prices.diamonds[selectedVal].toLocaleString('fr-FR')} €`;
+                else if (step.key === 'goldType' && configState.prices.goldType[selectedVal] !== undefined) {
+                    const v = configState.prices.goldType[selectedVal]; priceText = v ? `+${v.toLocaleString('fr-FR')} €` : 'Inclus';
+                } else if (step.key === 'goldColor' && configState.prices.goldColor[selectedVal] !== undefined) {
+                    const v = configState.prices.goldColor[selectedVal]; priceText = v ? `+${v.toLocaleString('fr-FR')} €` : 'Inclus';
+                } else if (step.key === 'setting' && configState.prices.setting[selectedVal] !== undefined) {
+                    const v = configState.prices.setting[selectedVal]; priceText = v ? `+${v.toLocaleString('fr-FR')} €` : 'Inclus';
+                }
+            }
+            p.textContent = priceText;
+
+            meta.appendChild(t);
+            if (s.textContent) meta.appendChild(s);
+            if (p.textContent) meta.appendChild(p);
+
+            row.appendChild(thumb);
+            row.appendChild(meta);
+            container.appendChild(row);
+        });
+        return;
+    }
+
+    // Comportement par défaut : détail de l'étape courante
+    const stepIndex = Math.min(configState.currentStep, steps.length - 1);
+    const step = steps[stepIndex];
+    if (!step) return;
+
+    // Titre décrivant l'étape
+    const header = document.createElement('div');
+    header.className = 'choices-help-note';
+    header.textContent = `Options proposées : ${step.title}`;
+    container.appendChild(header);
+
+    // Pour chaque option, ajouter une ligne détaillée
+    step.options.forEach(opt => {
+        const row = document.createElement('div');
+        row.className = 'choices-detail-step';
+
+        const thumb = document.createElement('div');
+        thumb.className = 'choices-detail-thumb';
+        const img = document.createElement('img');
+        img.src = opt.thumbnail || opt.image || '../assets/images/configurator/default.jpg';
+        img.alt = opt.title || '';
+        thumb.appendChild(img);
+
+        const meta = document.createElement('div');
+        meta.className = 'choices-detail-meta';
+        const t = document.createElement('div'); t.className = 'title'; t.textContent = opt.title || '';
+        const s = document.createElement('div'); s.className = 'subtitle'; s.textContent = opt.subtitle || '';
+        const p = document.createElement('div'); p.className = 'price';
+        // essayer d'afficher un prix si existant dans configState.prices
+        let priceText = '';
+        if (step.key === 'diamond' && configState.prices.diamonds[opt.value]) priceText = `${configState.prices.diamonds[opt.value]} €`;
+        if (step.key === 'goldType' && configState.prices.goldType[opt.value] !== undefined) priceText = `+${configState.prices.goldType[opt.value]} €`;
+        if (step.key === 'goldColor' && configState.prices.goldColor[opt.value] !== undefined) priceText = `+${configState.prices.goldColor[opt.value]} €`;
+        if (step.key === 'setting' && configState.prices.setting[opt.value] !== undefined) priceText = `+${configState.prices.setting[opt.value]} €`;
+        p.textContent = priceText;
+
+        meta.appendChild(t);
+        if (s.textContent) meta.appendChild(s);
+        if (p.textContent) meta.appendChild(p);
+
+        // click pour sélectionner cette option et fermer le panneau
+        row.appendChild(thumb);
+        row.appendChild(meta);
+        row.addEventListener('click', () => {
+            selectOption(step.key, opt.value, opt.image);
+            toggleDetailPanel(false);
+        });
+
+        container.appendChild(row);
+    });
+}
+
+/**
+ * Affiche / masque le panneau d'aide qui montre les différences entre choix
+ * Si forceState === false on ferme, true on ouvre, undefined toggles
+ */
+function toggleHelpPanel(forceState) {
+    const panel = document.getElementById('choicesHelpPanel');
+    if (!panel) return;
+    const isOpen = panel.getAttribute('aria-hidden') === 'false';
+    const shouldOpen = typeof forceState === 'boolean' ? forceState : !isOpen;
+    panel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+
+    if (shouldOpen) renderHelpPanel();
+}
+
+/**
+ * Générer le contenu du panneau d'aide : pour chaque étape, montrer les options
+ * et mettre en évidence la sélection actuelle. Affiche également une preview
+ * des choix déjà faits via petites vignettes.
+ */
+function renderHelpPanel() {
+    const container = document.getElementById('choicesHelpContent');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // Header des choix actuels
+    const currentWrap = document.createElement('div');
+    currentWrap.className = 'choices-help-current';
+    const currentTitle = document.createElement('div');
+    currentTitle.className = 'choices-help-note';
+    currentTitle.textContent = 'Prévisualisation des choix actuels :';
+    currentWrap.appendChild(currentTitle);
+
+    const currentGrid = document.createElement('div');
+    currentGrid.style.display = 'flex';
+    currentGrid.style.gap = '8px';
+    currentGrid.style.flexWrap = 'wrap';
+
+    steps.forEach((s) => {
+        if (s.condition && !s.condition()) return;
+        const val = configState.selections[s.key];
+        const el = document.createElement('div');
+        el.style.width = '56px';
+        el.style.height = '56px';
+        el.style.borderRadius = '8px';
+        el.style.overflow = 'hidden';
+        el.style.background = 'rgba(255,255,255,0.02)';
+
+        if (val) {
+            const opt = s.options.find(o => o.value === val);
+            const img = document.createElement('img');
+            img.src = (opt && (opt.thumbnail || opt.image)) || '../assets/images/configurator/default.jpg';
+            img.alt = opt ? opt.title : '';
+            img.style.width = '100%'; img.style.height = '100%'; img.style.objectFit = 'cover';
+            el.appendChild(img);
+        } else {
+            el.textContent = '—';
+            el.style.display = 'flex'; el.style.alignItems = 'center'; el.style.justifyContent = 'center'; el.style.color = 'rgba(255,255,255,0.45)';
+        }
+
+        currentGrid.appendChild(el);
+    });
+
+    currentWrap.appendChild(currentGrid);
+    container.appendChild(currentWrap);
+
+    // Détail par étape : montrer toutes les options disponibles
+    steps.forEach((step, idx) => {
+        if (step.condition && !step.condition()) return;
+        const stepBlock = document.createElement('div');
+        stepBlock.className = 'choices-help-step';
+        const h = document.createElement('h4');
+        h.textContent = step.title;
+        stepBlock.appendChild(h);
+
+        const optionsWrap = document.createElement('div');
+        optionsWrap.className = 'choices-help-options';
+
+        step.options.forEach(opt => {
+            const o = document.createElement('button');
+            o.type = 'button';
+            o.className = 'choices-help-option';
+            if (configState.selections[step.key] === opt.value) o.classList.add('selected');
+
+            const img = document.createElement('img');
+            img.src = opt.thumbnail || opt.image || '../assets/images/configurator/default.jpg';
+            img.alt = opt.title || '';
+            o.appendChild(img);
+
+            // au clic, naviguer vers l'étape pour modifier si souhaité
+            o.addEventListener('click', () => {
+                toggleHelpPanel(false);
+                goToStep(idx);
+            });
+
+            optionsWrap.appendChild(o);
+        });
+
+        stepBlock.appendChild(optionsWrap);
+        container.appendChild(stepBlock);
+    });
+
+    // note explicative
+    const note = document.createElement('div');
+    note.className = 'choices-help-note';
+    note.textContent = 'Cliquez sur une vignette pour aller modifier ce choix. Les vignettes sélectionnées sont marquées en or.';
+    container.appendChild(note);
 }
 
 /**
