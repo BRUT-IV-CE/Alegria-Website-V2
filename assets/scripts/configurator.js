@@ -385,6 +385,26 @@ function showSummary() {
     
     // Image finale
     document.getElementById('summaryImage').src = document.getElementById('mainProductImage').src;
+
+    // Rendre chaque item cliquable pour revenir à l'étape correspondante
+    const summaryItems = document.querySelectorAll('.rolex-summary-item[data-step]');
+    summaryItems.forEach(item => {
+        // enlève d'anciennes liaisons éventuelles
+        item.replaceWith(item.cloneNode(true));
+    });
+
+    // ré-obtenir les éléments clonés
+    const freshItems = document.querySelectorAll('.rolex-summary-item[data-step]');
+    freshItems.forEach(item => {
+        const stepIndex = parseInt(item.dataset.step, 10);
+        item.addEventListener('click', () => goToStep(stepIndex));
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                goToStep(stepIndex);
+            }
+        });
+    });
 }
 
 /**
@@ -393,6 +413,23 @@ function showSummary() {
 function closeModal() {
     document.getElementById('summaryModal').classList.remove('active');
     configState.currentStep = 0;
+    renderStep();
+}
+
+/**
+ * Masquer le modal sans réinitialiser l'étape
+ */
+function hideSummaryModal() {
+    const modal = document.getElementById('summaryModal');
+    if (modal) modal.classList.remove('active');
+}
+
+/**
+ * Aller à une étape précise depuis le récapitulatif
+ */
+function goToStep(stepIndex) {
+    hideSummaryModal();
+    configState.currentStep = Math.max(0, Math.min(stepIndex, steps.length - 1));
     renderStep();
 }
 

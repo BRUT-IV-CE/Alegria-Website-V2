@@ -371,6 +371,15 @@
     border-bottom: 1px solid #eee;
 }
 
+/* Make summary items look interactive when they are linkable */
+.rolex-summary-item[role="button"] {
+    cursor: pointer;
+}
+
+.rolex-summary-item[role="button"]:hover {
+    background-color: #faf7f2;
+}
+
 .summary-label {
     font-size: 14px;
     color: #666;
