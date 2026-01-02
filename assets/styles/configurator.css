@@ -16,7 +16,9 @@
     width: 100vw;
     height: calc(100vh - 80px);
     overflow: hidden;
-    background-color: #f5f5f0;
+    /* Fond studio photo immersif : gradient radial sombre/violet -> noir */
+    background: radial-gradient(circle at 40% 35%, rgba(85,60,120,0.55) 0%, rgba(20,12,30,0.92) 55%), #0a0710;
+    color: #eee;
 }
 
 /* Height reserved for the fixed "Suivant" button (used to avoid overlap on mobile) */
@@ -38,11 +40,22 @@
 }
 
 .rolex-main-image {
-    max-width: 60%;
-    max-height: 70%;
+    max-width: 75%;
+    max-height: 80%;
     object-fit: contain;
-    transition: opacity 0.5s ease;
+    transition: transform 0.45s ease, opacity 0.35s ease;
+    transform-origin: center center;
 }
+
+/* Variantes de vue (légère rotation/scale pour effet d'angle) */
+.rolex-image-container.view-0 .rolex-main-image { transform: rotateY(0deg) scale(1); }
+.rolex-image-container.view-1 .rolex-main-image { transform: rotateY(-12deg) scale(1.02); }
+.rolex-image-container.view-2 .rolex-main-image { transform: rotateY(12deg) scale(1.02); }
+
+/* Preview temporary classes on hover (subtle) */
+.rolex-image-container.preview-0 .rolex-main-image { transform: rotateY(0deg) scale(1.01); }
+.rolex-image-container.preview-1 .rolex-main-image { transform: rotateY(-10deg) scale(1.03); }
+.rolex-image-container.preview-2 .rolex-main-image { transform: rotateY(10deg) scale(1.03); }
 
 /* ===== BOUTON SUIVANT EN BAS CENTRE ===== */
 .rolex-next-button {
@@ -61,27 +74,27 @@
     justify-content: center;
 }
 
+
 .btn-rolex-next {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px 32px;
-    background-color: #1a1a1a;
-    color: white;
-    border: none;
+    padding: 14px 28px;
+    background: linear-gradient(180deg, var(--color-champagne), #fff8ee);
+    color: var(--color-primary);
+    border: 1px solid rgba(0,0,0,0.06);
     border-radius: 50px;
     font-family: var(--font-body);
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.22s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .btn-rolex-next:hover {
-    background-color: #333;
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.16);
 }
 
 .btn-rolex-next:active {
@@ -94,25 +107,23 @@
 }
 
 /* Previous button style (paired with the next button) */
+
 .btn-rolex-prev {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 20px;
-    background-color: transparent;
-    color: #1a1a1a;
-    border: 2px solid rgba(0,0,0,0.08);
+    padding: 10px 16px;
+    background: linear-gradient(180deg, var(--color-white), var(--color-champagne));
+    color: var(--color-primary);
+    border: 1px solid var(--color-silver);
     border-radius: 50px;
     font-family: var(--font-body);
     font-size: 15px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.18s ease;
 }
 
-.btn-rolex-prev:hover {
-    transform: translateY(-2px);
-    border-color: rgba(0,0,0,0.18);
-}
+.btn-rolex-prev:hover { transform: translateY(-2px); border-color: var(--color-primary); }
 
 .btn-rolex-prev svg {
     width: 18px;
@@ -120,20 +131,53 @@
 }
 
 /* ===== OPTIONS À GAUCHE ===== */
-.rolex-options-left {
+.rolex-options-left { display: none; }
+
+/* Options overlay en bas — horizontal */
+.rolex-options-bottom {
     position: absolute;
-    top: 120px;
-    left: 60px;
-    width: 320px;
-    max-height: calc(100vh - 240px);
-    z-index: 5;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 140px; /* au-dessus des boutons */
+    width: calc(100% - 120px);
+    max-width: 1200px;
+    z-index: 1200;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    gap: 10px;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.rolex-options-bottom .rolex-step-indicator,
+.rolex-options-bottom .rolex-step-title { color: rgba(255,255,255,0.9); text-align: center; }
+
+.rolex-options-bottom .rolex-option-list {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 8px 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rolex-options-bottom .rolex-option-item {
+    min-width: 160px;
+    background: rgba(10,10,12,0.45);
+    color: #f5f0ff;
+    border: 1px solid rgba(212,175,55,0.06);
+    backdrop-filter: blur(6px);
+    padding: 12px 16px;
+    border-radius: 12px;
+}
+
+.rolex-options-bottom .rolex-option-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.45); }
+
+.rolex-options-bottom .rolex-option-item.active {
+    border-color: rgba(212,175,55,0.9);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(212,175,55,0.04));
+    color: #fff;
 }
 
 .rolex-step-indicator {
@@ -144,16 +188,8 @@
     flex-shrink: 0;
 }
 
-.step-number {
-    font-size: 32px;
-    font-weight: 700;
-    color: #1a1a1a;
-}
-
-.step-total {
-    font-size: 18px;
-    color: #999;
-}
+.step-number { display:none; }
+.step-total { display:none; }
 
 .rolex-step-title {
     font-family: var(--font-heading);
@@ -240,15 +276,15 @@
 }
 
 .rolex-thumbnail {
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 3px solid transparent;
+    border: 2px solid rgba(255,255,255,0.06);
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: white;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease;
+    background-color: rgba(255,255,255,0.03);
+    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.45);
 }
 
 .rolex-thumbnail:hover {
@@ -397,6 +433,200 @@
     height: 2px;
     background-color: #d4af37;
     margin: 20px 0;
+}
+
+/* Styles pour l'étape récapitulatif (bulles) */
+.rolex-option-list.summary-step { display: flex; flex-direction: column; gap: 18px; align-items: center; }
+.rolex-summary-bubbles {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+}
+.rolex-summary-bubble {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 140px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #efe8ff;
+}
+.rolex-summary-bubble:focus { outline: 2px solid rgba(212,175,55,0.6); outline-offset: 6px; }
+.rolex-summary-bubble-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 3px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.rolex-summary-bubble-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rolex-summary-bubble-label { font-size: 13px; text-align: center; color: #efe8ff; }
+.rolex-summary-bubble.empty .rolex-summary-bubble-img { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.4); font-weight: 700; }
+
+.rolex-summary-actions-inline { display:flex; gap:12px; margin-top: 14px; }
+
+/* Responsive tweaks */
+@media (max-width: 700px) {
+    .rolex-summary-bubble { width: 46%; }
+    .rolex-summary-bubble-img { width: 80px; height: 80px; }
+    .rolex-options-bottom { bottom: 120px; }
+}
+
+/* ------------------ BOTTOM INFO BAR ------------------ */
+.rolex-bottom-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    gap: 12px;
+    background: linear-gradient(180deg, rgba(10,8,12,0.0), rgba(6,4,8,0.6));
+    color: #fff;
+    z-index: 2000;
+    border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+.rolex-bottom-left { display: flex; flex-direction: column; }
+.rolex-bottom-model { font-weight: 600; color: var(--color-primary); }
+.rolex-bottom-price { font-weight: 700; color: var(--color-accent); }
+
+.btn-rolex-plus {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #d4af37, #b8872a);
+    color: #0a0710;
+    border: none;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(212,175,55,0.18);
+}
+
+/* ------------------ VIEW DOTS (côté droit) ------------------ */
+.rolex-thumbnails-right {
+    position: absolute;
+    top: 50%;
+    right: 48px;
+    transform: translateY(-50%);
+    z-index: 1300;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.rolex-view-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.rolex-view-dot img { width:100%; height:100%; object-fit:cover; display:block; }
+.rolex-view-dot:hover { transform: scale(1.06); box-shadow:0 8px 20px rgba(0,0,0,0.28); }
+.rolex-view-dot.active { background: var(--color-accent); transform: scale(1.2); box-shadow: 0 10px 30px rgba(212,175,55,0.2); }
+
+/* ------------------ CHOICES HELP PANEL ------------------ */
+.choices-help-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 88px;
+    width: 360px;
+    max-height: calc(80vh - 40px);
+    background: linear-gradient(180deg, rgba(16,10,26,0.95), rgba(8,4,12,0.9));
+    color: #efe8ff;
+    border-radius: 12px;
+    padding: 16px 16px 20px 16px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+    z-index: 3500;
+    overflow: auto;
+    display: none;
+    backdrop-filter: blur(6px);
+}
+.choices-help-panel[aria-hidden="false"] { display: block; }
+.choices-help-close { position: absolute; top: 8px; right: 8px; background:none; border:none; color: #fff; font-size:18px; cursor:pointer; }
+.choices-help-title { margin: 6px 0 12px 0; font-size:16px; color:#efe8ff; }
+.choices-help-step { margin-bottom: 14px; }
+.choices-help-step h4 { margin:0 0 8px 0; font-size:13px; color: #dcd0ff; }
+.choices-help-options { display:flex; gap:8px; flex-wrap:wrap; }
+.choices-help-option { width:76px; height:76px; border-radius:8px; overflow:hidden; background:rgba(255,255,255,0.02); display:flex; align-items:center; justify-content:center; cursor:pointer; border:2px solid transparent; }
+.choices-help-option img { width:100%; height:100%; object-fit:cover; display:block; }
+.choices-help-option.selected { border-color: rgba(212,175,55,0.95); box-shadow: 0 8px 22px rgba(212,175,55,0.12); }
+.choices-help-note { font-size:12px; color:rgba(255,255,255,0.65); margin-top:8px; }
+
+@media (max-width: 800px) {
+    .choices-help-panel { right: 12px; left: 12px; width: auto; bottom: 80px; max-height: 60vh; }
+}
+
+/* Override pour btn-secondary uniquement dans le configurateur (ton clair) */
+.rolex-configurator .btn.btn-secondary {
+    background: linear-gradient(180deg, var(--color-lavender), rgba(224,208,250,0.9));
+    color: var(--color-primary);
+    border: 1px solid rgba(25,0,66,0.06);
+    box-shadow: 0 6px 18px rgba(25,0,66,0.06);
+}
+.rolex-configurator .btn.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(25,0,66,0.09);
+}
+
+/* ------------------ BOTTOM DETAIL PANEL (WHITE, SLIDE-UP) ------------------ */
+.choices-detail-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 46vh;
+    max-height: 560px;
+    background: #ffffff;
+    color: #1a1a1a;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    box-shadow: 0 -20px 60px rgba(4,4,6,0.45);
+    z-index: 4000;
+    transform: translateY(110%);
+    transition: transform 320ms cubic-bezier(.22,.9,.3,1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.choices-detail-panel[aria-hidden="false"] { transform: translateY(0%); }
+.choices-detail-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid rgba(0,0,0,0.06); }
+.choices-detail-title { font-weight:700; font-size:16px; color:#0b0b0b; }
+.choices-detail-close { background:none; border:none; font-size:18px; cursor:pointer; color:#222; }
+.choices-detail-content { padding:12px 16px; overflow:auto; display:flex; gap:12px; flex-direction:column; }
+.choices-detail-step { display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.04); }
+.choices-detail-step:last-child { border-bottom: none; }
+.choices-detail-thumb { width:84px; height:84px; border-radius:8px; overflow:hidden; background:#f6f6f6; display:flex; align-items:center; justify-content:center; }
+.choices-detail-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.choices-detail-meta { display:flex; flex-direction:column; gap:6px; }
+.choices-detail-meta .title { font-weight:600; color:#111; }
+.choices-detail-meta .subtitle { font-size:13px; color:#666; }
+.choices-detail-meta .price { font-weight:700; color:#b8872a; }
+
+@media (max-width: 720px) {
+    .choices-detail-panel { height: 58vh; }
+    .choices-detail-thumb { width:64px; height:64px; }
 }
 
 .rolex-summary-total {
