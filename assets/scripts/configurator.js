@@ -1,13 +1,13 @@
 /**
- * ALEGRIA PARIS - Ring Configurator (Rolex Style)
+ * ALEGRIA PARIS - Ring Configurator (configurator Style)
  * ================================================
  * Configurateur de bijoux avec navigation par étapes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (!document.querySelector('.rolex-configurator')) return;
-    
-    initRolexConfigurator();
+    if (!document.querySelector('.configurator-root')) return;
+
+    initconfiguratorConfigurator();
 });
 
 /**
@@ -59,14 +59,12 @@ const steps = [
             {
                 value: '14k',
                 title: 'Or 14K',
-                subtitle: '585 millièmes',
                 image: '../assets/images/configurator/14k-preview.jpg',
                 thumbnail: '../assets/images/configurator/thumb-14k.jpg'
             },
             {
                 value: '18k',
                 title: 'Or 18K',
-                subtitle: '750 millièmes (Recommandé)',
                 image: '../assets/images/configurator/18k-preview.jpg',
                 thumbnail: '../assets/images/configurator/thumb-18k.jpg'
             }
@@ -79,21 +77,18 @@ const steps = [
             {
                 value: 'yellow',
                 title: 'Or Jaune',
-                subtitle: 'Classique et intemporel',
                 image: '../assets/images/configurator/yellow-gold.jpg',
                 thumbnail: '../assets/images/configurator/thumb-yellow.jpg'
             },
             {
                 value: 'white',
                 title: 'Or Blanc',
-                subtitle: 'Élégant et moderne',
                 image: '../assets/images/configurator/white-gold.jpg',
                 thumbnail: '../assets/images/configurator/thumb-white.jpg'
             },
             {
                 value: 'rose',
                 title: 'Or Rose',
-                subtitle: 'Romantique et tendance',
                 image: '../assets/images/configurator/rose-gold.jpg',
                 thumbnail: '../assets/images/configurator/thumb-rose.jpg'
             }
@@ -106,7 +101,7 @@ const steps = [
             { value: '46', title: 'Taille 46', image: '../assets/images/configurator/size-46.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
             { value: '48', title: 'Taille 48', image: '../assets/images/configurator/size-48.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
             { value: '50', title: 'Taille 50', image: '../assets/images/configurator/size-50.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
-            { value: '52', title: 'Taille 52', subtitle: 'Taille moyenne', image: '../assets/images/configurator/size-52.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
+            { value: '52', title: 'Taille 52', image: '../assets/images/configurator/size-52.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
             { value: '54', title: 'Taille 54', image: '../assets/images/configurator/size-54.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
             { value: '56', title: 'Taille 56', image: '../assets/images/configurator/size-56.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
             { value: '58', title: 'Taille 58', image: '../assets/images/configurator/size-58.jpg', thumbnail: '../assets/images/configurator/thumb-size.jpg' },
@@ -120,14 +115,12 @@ const steps = [
             {
                 value: 'alliance',
                 title: 'Alliance Simple',
-                subtitle: 'Sans diamant central',
                 image: '../assets/images/configurator/alliance.jpg',
                 thumbnail: '../assets/images/configurator/thumb-alliance.jpg'
             },
             {
                 value: 'solitaire',
                 title: 'Solitaire',
-                subtitle: 'Avec diamant central',
                 image: '../assets/images/configurator/solitaire.jpg',
                 thumbnail: '../assets/images/configurator/thumb-solitaire.jpg'
             }
@@ -141,42 +134,36 @@ const steps = [
             {
                 value: '0.30',
                 title: '0.30 carat',
-                subtitle: '890 €',
                 image: '../assets/images/configurator/diamond-030.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-030.jpg'
             },
             {
                 value: '0.50',
                 title: '0.50 carat',
-                subtitle: '1 490 €',
                 image: '../assets/images/configurator/diamond-050.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-050.jpg'
             },
             {
                 value: '0.70',
                 title: '0.70 carat',
-                subtitle: '2 190 €',
                 image: '../assets/images/configurator/diamond-070.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-070.jpg'
             },
             {
                 value: '1.00',
                 title: '1.00 carat',
-                subtitle: '3 490 €',
                 image: '../assets/images/configurator/diamond-100.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-100.jpg'
             },
             {
                 value: '1.50',
                 title: '1.50 carat',
-                subtitle: '5 990 €',
                 image: '../assets/images/configurator/diamond-150.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-150.jpg'
             },
             {
                 value: '2.00',
                 title: '2.00 carat',
-                subtitle: '8 990 €',
                 image: '../assets/images/configurator/diamond-200.jpg',
                 thumbnail: '../assets/images/configurator/thumb-diamond-200.jpg'
             }
@@ -187,7 +174,7 @@ const steps = [
 /**
  * Initialisation du configurateur
  */
-function initRolexConfigurator() {
+function initconfiguratorConfigurator() {
     loadFromLocalStorage();
     renderStep();
     
@@ -208,7 +195,7 @@ function initRolexConfigurator() {
     const viewDots = document.getElementById('viewDots');
     if (viewDots) {
         // Injecter une mini-image dans chaque pastille et ajouter hover preview
-        viewDots.querySelectorAll('.rolex-view-dot').forEach(btn => {
+        viewDots.querySelectorAll('.configurator-view-dot').forEach(btn => {
             // ajouter img mini
             const img = document.createElement('img');
             const mainSrc = document.getElementById('mainProductImage')?.src || '';
@@ -219,9 +206,9 @@ function initRolexConfigurator() {
 
             // click -> changer la classe view
             btn.addEventListener('click', () => {
-                viewDots.querySelectorAll('.rolex-view-dot').forEach(b => b.classList.toggle('active', b === btn));
+                viewDots.querySelectorAll('.configurator-view-dot').forEach(b => b.classList.toggle('active', b === btn));
                 const v = btn.dataset.view || '0';
-                const container = document.querySelector('.rolex-image-container');
+                const container = document.querySelector('.configurator-image-container');
                 if (container) {
                     container.classList.remove('view-0','view-1','view-2');
                     container.classList.add('view-' + v);
@@ -230,14 +217,14 @@ function initRolexConfigurator() {
 
             // hover pour prévisualiser la vue sans changer définitivement
             btn.addEventListener('mouseenter', () => {
-                const container = document.querySelector('.rolex-image-container');
+                const container = document.querySelector('.configurator-image-container');
                 if (container) {
                     const v = btn.dataset.view || '0';
                     container.classList.add('preview-' + v);
                 }
             });
             btn.addEventListener('mouseleave', () => {
-                const container = document.querySelector('.rolex-image-container');
+                const container = document.querySelector('.configurator-image-container');
                 if (container) {
                     container.classList.remove('preview-0','preview-1','preview-2');
                 }
@@ -312,7 +299,7 @@ function renderOptions(step) {
     
     step.options.forEach(option => {
         const optionItem = document.createElement('button');
-        optionItem.className = 'rolex-option-item';
+        optionItem.className = 'configurator-option-item';
         optionItem.dataset.value = option.value;
         
         if (configState.selections[step.key] === option.value) {
@@ -320,8 +307,7 @@ function renderOptions(step) {
         }
         
         optionItem.innerHTML = `
-            <span class="rolex-option-item-title">${option.title}</span>
-            ${option.subtitle ? `<span class="rolex-option-item-subtitle">${option.subtitle}</span>` : ''}
+            <span class="configurator-option-item-title">${option.title}</span>
         `;
         
         optionItem.addEventListener('click', () => selectOption(step.key, option.value, option.image));
@@ -337,11 +323,11 @@ function selectOption(key, value, image) {
     configState.selections[key] = value;
     
     // Mettre à jour l'interface
-    document.querySelectorAll('.rolex-option-item').forEach(item => {
+    document.querySelectorAll('.configurator-option-item').forEach(item => {
         item.classList.toggle('active', item.dataset.value === value);
     });
     
-    document.querySelectorAll('.rolex-thumbnail').forEach(thumb => {
+    document.querySelectorAll('.configurator-thumbnail').forEach(thumb => {
         thumb.classList.toggle('active', thumb.dataset.value === value);
     });
     
@@ -361,7 +347,7 @@ function selectOption(key, value, image) {
     if (typeof updateBottomBar === 'function') updateBottomBar();
 
     // Mettre à jour aussi les miniatures des pastilles de vue si présentes
-    document.querySelectorAll('.rolex-view-dot img').forEach(i => {
+    document.querySelectorAll('.configurator-view-dot img').forEach(i => {
         i.src = image || i.src;
     });
 }
@@ -434,7 +420,7 @@ function updateMainImage() {
             if (mainImg) mainImg.src = option.image;
 
             // Mettre à jour les miniatures dans les view dots si présentes
-            document.querySelectorAll('.rolex-view-dot img').forEach(i => {
+            document.querySelectorAll('.configurator-view-dot img').forEach(i => {
                 i.src = option.thumbnail || option.image || i.src;
             });
         }
@@ -526,7 +512,7 @@ function updateBottomBar() {
  */
 function renderSummaryStep() {
     // Masquer l'indicateur de pas (ex: "6/5") sur la page récapitulatif
-    const stepIndicator = document.querySelector('.rolex-step-indicator');
+    const stepIndicator = document.querySelector('.configurator-step-indicator');
     if (stepIndicator) stepIndicator.style.display = 'none';
     document.getElementById('stepTitle').textContent = 'Récapitulatif de votre création';
 
@@ -536,7 +522,7 @@ function renderSummaryStep() {
 
     // Container de bulles
     const bubbles = document.createElement('div');
-    bubbles.className = 'rolex-summary-bubbles';
+    bubbles.className = 'configurator-summary-bubbles';
 
     // Pour chaque étape, afficher une bulle si une sélection existe
     steps.forEach((step, index) => {
@@ -545,15 +531,15 @@ function renderSummaryStep() {
 
         const selectedVal = configState.selections[step.key];
         const bubble = document.createElement('button');
-        bubble.className = 'rolex-summary-bubble';
+        bubble.className = 'configurator-summary-bubble';
         bubble.type = 'button';
         bubble.dataset.step = index;
 
         const imgWrap = document.createElement('div');
-        imgWrap.className = 'rolex-summary-bubble-img';
+        imgWrap.className = 'configurator-summary-bubble-img';
 
         const label = document.createElement('div');
-        label.className = 'rolex-summary-bubble-label';
+        label.className = 'configurator-summary-bubble-label';
 
         if (selectedVal) {
             const opt = step.options.find(o => o.value === selectedVal);
@@ -588,7 +574,7 @@ function renderSummaryStep() {
 
     // Footer actions: bouton commander + revenir modifier
     const actions = document.createElement('div');
-    actions.className = 'rolex-summary-actions-inline';
+    actions.className = 'configurator-summary-actions-inline';
 
     const checkout = document.createElement('button');
     checkout.className = 'btn btn-gold btn-lg';

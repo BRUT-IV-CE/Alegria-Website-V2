@@ -258,7 +258,7 @@
 }
 
 .brand-story-content .subtitle {
-    color: var(--color-champagne);
+    color: var(--color-lavender);
     margin-bottom: var(--space-sm);
 }
 
@@ -379,7 +379,7 @@
     font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wider);
-    color: var(--color-silver);
+    color: var(--color-lavender);
     margin-bottom: var(--space-sm);
 }
 
